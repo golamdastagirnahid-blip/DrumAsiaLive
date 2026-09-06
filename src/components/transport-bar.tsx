@@ -37,8 +37,14 @@ export function TransportBar() {
     const onScroll = () => {
       const y = window.scrollY;
       const delta = y - lastY.current;
-      if (Math.abs(delta) < 6) return;
-      setHidden(delta > 0 && y > 220);
+      if (Math.abs(delta) < 4) return;
+      if (delta > 0) {
+        // Scrolling down -> bottom bar appears / shows
+        setHidden(false);
+      } else if (delta < 0 && y > 80) {
+        // Scrolling up -> bottom bar hides
+        setHidden(true);
+      }
       lastY.current = y;
     };
     window.addEventListener("scroll", onScroll, { passive: true });

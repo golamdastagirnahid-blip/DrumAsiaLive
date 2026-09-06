@@ -58,19 +58,30 @@ export function FounderPortrait({
       <span className="screw screw--bl" aria-hidden />
       <span className="screw screw--br" aria-hidden />
 
-      <div ref={frameRef} className={cn("founder-frame__inner", aspect, swept && "light-sweep sweep-in")}>
-        {hasImage ? (
-          <Image
-            src={src}
-            alt={`Portrait of ${name}, ${role}`}
-            fill
-            sizes="(max-width: 768px) 92vw, 44vw"
-            className="object-cover"
-            priority={priority}
-          />
-        ) : (
-          <Monogram name={name} />
+      <div
+        ref={frameRef}
+        className={cn(
+          "founder-frame__inner relative w-full aspect-[4/5] min-h-[360px] sm:min-h-[420px] bg-panel-2 overflow-hidden",
+          aspect,
+          swept && "light-sweep sweep-in",
         )}
+      >
+        <img
+          src={hasImage && src ? src : "/founder/portrait.jpg"}
+          alt={`Portrait of ${name}, ${role}`}
+          className="absolute inset-0 h-full w-full object-cover"
+          loading={priority ? "eager" : "lazy"}
+          onError={(e) => {
+            // fallback gracefully if image fails
+            const target = e.currentTarget;
+            target.style.display = "none";
+            const fallback = target.nextElementSibling as HTMLElement | null;
+            if (fallback) fallback.style.display = "flex";
+          }}
+        />
+        <div style={{ display: "none" }} className="absolute inset-0">
+          <Monogram name={name} />
+        </div>
       </div>
       <figcaption className="flex items-end justify-between gap-3 px-2 pb-1 pt-3">
         <span className="nameplate">{name}</span>

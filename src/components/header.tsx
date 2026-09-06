@@ -27,7 +27,7 @@ export function Header() {
     const onScroll = () => {
       cancelAnimationFrame(raf.current);
       raf.current = requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 90);
+        setScrolled(window.scrollY > 20);
       });
     };
     onScroll();
@@ -47,9 +47,9 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-[80] transition-[background-color,border-color,backdrop-filter,box-shadow] duration-500",
+        "fixed inset-x-0 top-0 z-[80] transition-[background-color,border-color,backdrop-filter,box-shadow] duration-300",
         scrolled
-          ? "border-b border-secondary/60 bg-base/85 shadow-[0_1px_0_rgba(255,255,255,0.04)_inset] backdrop-blur-[18px]"
+          ? "border-b border-hairline-strong bg-[#0b0c0e] shadow-[0_10px_30px_rgba(0,0,0,0.9)] backdrop-blur-2xl"
           : "border-b border-transparent bg-transparent",
       )}
     >

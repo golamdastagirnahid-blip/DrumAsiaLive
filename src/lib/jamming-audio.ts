@@ -24,7 +24,7 @@ class JammingAudioEngine {
   private intervalId: number | null = null;
   private step = 0;
   private isPlaying = false;
-  private volume = 0.65;
+  private volume = 0.8;
   private listeners: Set<(state: JammingAudioState) => void> = new Set();
   private hasInit = false;
 
@@ -44,21 +44,28 @@ class JammingAudioEngine {
         if (!isNaN(v)) this.volume = Math.max(0, Math.min(1, v));
       }
       const savedPlaying = window.localStorage.getItem(STORAGE_PLAYING);
+      
+      const autoStart = () => {
+        // Start on first touch or click unless user explicitly turned it off
+        if (window.localStorage.getItem(STORAGE_PLAYING) !== "false" && !this.isPlaying) {
+          this.start();
+        }
+      };
+
       if (savedPlaying === "true") {
         this.isPlaying = true;
-        const resumeSession = () => {
-          if (window.localStorage.getItem(STORAGE_PLAYING) === "true") {
-            this.start();
-          }
-        };
         const ctx = this.getAudioContext();
         if (ctx && ctx.state === "running") {
           this.start();
         } else {
-          window.addEventListener("click", resumeSession, { once: true });
-          window.addEventListener("touchstart", resumeSession, { once: true });
-          window.addEventListener("keydown", resumeSession, { once: true });
+          window.addEventListener("click", autoStart, { once: true });
+          window.addEventListener("touchstart", autoStart, { once: true });
+          window.addEventListener("keydown", autoStart, { once: true });
         }
+      } else if (savedPlaying === null) {
+        // First time visitor: unlock and start on first click/touch
+        window.addEventListener("click", autoStart, { once: true });
+        window.addEventListener("touchstart", autoStart, { once: true });
       }
     } catch {
       /* noop */
@@ -74,13 +81,13 @@ class JammingAudioEngine {
       if (AudioContextClass) {
         this.ctx = new AudioContextClass();
         this.masterGain = this.ctx.createGain();
-        this.masterGain.gain.setValueAtTime(this.volume * 0.45, this.ctx.currentTime);
+        this.masterGain.gain.setValueAtTime(this.volume * 0.85, this.ctx.currentTime);
 
         // Warm studio room low-pass filter
         this.filterNode = this.ctx.createBiquadFilter();
         this.filterNode.type = "lowpass";
-        this.filterNode.frequency.setValueAtTime(4800, this.ctx.currentTime);
-        this.filterNode.Q.setValueAtTime(1.2, this.ctx.currentTime);
+        this.filterNode.frequency.setValueAtTime(5200, this.ctx.currentTime);
+        this.filterNode.Q.setValueAtTime(1.1, this.ctx.currentTime);
 
         this.masterGain.connect(this.filterNode);
         this.filterNode.connect(this.ctx.destination);

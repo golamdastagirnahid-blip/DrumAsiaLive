@@ -40,17 +40,17 @@ export function JammingSoundController({
 
   if (compact) {
     return (
-      <div className={cn("flex items-center gap-2 rounded-[6px] border border-hairline bg-panel-2/90 px-3 py-1.5 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.5)]", className)}>
-        {/* Play/Stop Button */}
+      <div className={cn("flex items-center gap-1.5 sm:gap-2 rounded-[6px] border border-hairline bg-panel-2/90 px-2 sm:px-3 py-1 sm:py-1.5 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.5)]", className)}>
+        {/* Play/Stop Button with active pulsing state */}
         <button
           type="button"
           onClick={togglePlay}
           aria-label={audioState.isPlaying ? "Stop Jamming Room Audio" : "Play Jamming Room Audio"}
           className={cn(
-            "flex h-7 w-7 items-center justify-center rounded-full transition-all duration-300",
+            "flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-all duration-300",
             audioState.isPlaying
               ? "bg-accent text-black shadow-[0_0_12px_var(--gel-glow)] scale-105"
-              : "border border-hairline text-ink-mid hover:text-accent hover:border-accent",
+              : "border border-accent/60 text-accent hover:border-accent hover:bg-accent/10 animate-pulse",
           )}
         >
           {audioState.isPlaying ? (
@@ -66,7 +66,7 @@ export function JammingSoundController({
             <span
               className={cn(
                 "h-1.5 w-1.5 rounded-full",
-                audioState.isPlaying ? "bg-open animate-pulse shadow-[0_0_8px_#37d18a]" : "bg-ink-dim/40",
+                audioState.isPlaying ? "bg-open animate-pulse shadow-[0_0_8px_#37d18a]" : "bg-accent animate-ping",
               )}
             />
             <span className="tech text-[9px] uppercase tracking-wider font-semibold text-ink">
@@ -86,11 +86,11 @@ export function JammingSoundController({
           )}
         </div>
 
-        {/* Compact Volume Slider */}
-        <div className="flex items-center gap-1 pl-1">
+        {/* Compact Volume Slider - visible on md+ screens to save mobile header space */}
+        <div className="hidden md:flex items-center gap-1 pl-1">
           <button
             type="button"
-            onClick={() => jammingAudio.setVolume(audioState.volume > 0 ? 0 : 0.65)}
+            onClick={() => jammingAudio.setVolume(audioState.volume > 0 ? 0 : 0.75)}
             className="text-ink-mid hover:text-accent transition-colors"
           >
             {audioState.volume === 0 ? (
