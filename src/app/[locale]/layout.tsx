@@ -75,6 +75,14 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="antialiased">
         <Script id="da-gel-init" strategy="beforeInteractive">
           {`(function(){try{var g=localStorage.getItem('da-gel');if(!g||['console','drum-stage','guitar-lounge','synth-keys','sky-session','pure-dark','stage-lights','amber-wash','cool-wash','house-lights'].indexOf(g)===-1){g='drum-stage';}document.documentElement.setAttribute('data-gel',g);}catch(e){document.documentElement.setAttribute('data-gel','drum-stage');}})();`}
