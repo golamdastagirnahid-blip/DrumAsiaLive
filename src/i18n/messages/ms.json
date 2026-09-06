@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "title": "DrumAsia — Studio Jamming, Studio Rakaman & Pentas Langsung di Kuala Lumpur",
+    "description": "Bilik jamming, studio rakaman, pentas langsung dan sewaan backline di Desa Sri Hartamas, Kuala Lumpur. Play, Practice and Perform sejak 2014."
+  },
+  "common": {
+    "skipToContent": "Langkau ke kandungan",
+    "book": "Tempah",
+    "bookOnWhatsApp": "Tempah di WhatsApp",
+    "callTheStudio": "Hubungi studio",
+    "loadIn": "Load-In",
+    "whatsapp": "WhatsApp",
+    "confirmOnWhatsApp": "Sahkan harga akhir di WhatsApp",
+    "estimate": "Anggaran",
+    "menu": "Menu",
+    "close": "Tutup",
+    "back": "Kembali",
+    "language": "Bahasa"
+  },
+  "transport": {
+    "recLabel": "REC",
+    "statusOpen": "BUKA",
+    "statusClosed": "TUTUP",
+    "closesIn": "TUTUP DALAM",
+    "opensAt": "BUKA",
+    "masterMute": "Bisukan semua audio laman",
+    "unmute": "Nyahbisukan audio laman",
+    "muted": "Dibisukan",
+    "timeAria": "Waktu semasa di Kuala Lumpur",
+    "bookAria": "Tempah di WhatsApp"
+  },
+  "header": {
+    "navLabel": "Navigasi utama",
+    "aria": {
+      "menuButton": "Buka menu",
+      "hasChildren": "mempunyai submenu"
+    }
+  },
+  "announcement": {
+    "dismiss": "Tutup pengumuman"
+  },
+  "footer": {
+    "tagline": "Play, Practice and Perform — Desa Sri Hartamas sejak 2014.",
+    "branchHours": "Waktu operasi",
+    "getDirections": "Dapatkan arah",
+    "callNow": "Hubungi sekarang",
+    "newsletterTitle": "Maklumat awal tiket gig dan slot luar puncak yang murah.",
+    "newsletterCta": "Sertai senarai",
+    "legal": "Perundangan",
+    "socials": "Ikuti",
+    "established": "EST. 2014",
+    "rights": "Hak cipta terpelihara."
+  },
+  "notFound": {
+    "title": "Lagu ini tiada dalam senarai set",
+    "body": "Bilik salah, halaman salah — atau ia telah dipotong. Ini tempat anda boleh pergi.",
+    "home": "Kembali ke sesi",
+    "rooms": "Lihat bilik",
+    "backline": "Layari backline"
+  }
+}

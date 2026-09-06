@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "title": "DrumAsia — Jamming Studio, Recording Studio & Live Venue in Kuala Lumpur",
+    "description": "Jamming rooms, a recording studio, a live venue and backline rental in Desa Sri Hartamas, Kuala Lumpur. Play, Practice and Perform since 2014."
+  },
+  "common": {
+    "skipToContent": "Skip to content",
+    "book": "Book",
+    "bookOnWhatsApp": "Book on WhatsApp",
+    "callTheStudio": "Call the studio",
+    "loadIn": "Load-In",
+    "whatsapp": "WhatsApp",
+    "confirmOnWhatsApp": "Confirm final pricing on WhatsApp",
+    "estimate": "Estimate",
+    "menu": "Menu",
+    "close": "Close",
+    "back": "Back",
+    "language": "Language"
+  },
+  "transport": {
+    "recLabel": "REC",
+    "statusOpen": "OPEN",
+    "statusClosed": "CLOSED",
+    "closesIn": "CLOSES IN",
+    "opensAt": "OPENS",
+    "masterMute": "Master mute — all site audio",
+    "unmute": "Unmute site audio",
+    "muted": "Muted",
+    "timeAria": "Current time in Kuala Lumpur",
+    "bookAria": "Book on WhatsApp"
+  },
+  "header": {
+    "navLabel": "Main navigation",
+    "aria": {
+      "menuButton": "Open menu",
+      "hasChildren": "has submenu"
+    }
+  },
+  "announcement": {
+    "dismiss": "Dismiss announcement"
+  },
+  "footer": {
+    "tagline": "Play, Practice and Perform — Desa Sri Hartamas since 2014.",
+    "branchHours": "Opening hours",
+    "getDirections": "Get directions",
+    "callNow": "Call now",
+    "newsletterTitle": "First dibs on gig tickets and cheap off-peak slots.",
+    "newsletterCta": "Join the list",
+    "legal": "Legal",
+    "socials": "Follow",
+    "established": "EST. 2014",
+    "rights": "All rights reserved."
+  },
+  "notFound": {
+    "title": "This track isn't on the setlist",
+    "body": "Wrong room, wrong page — or it got cut. Here's where you can go instead.",
+    "home": "Back to the session",
+    "rooms": "See the rooms",
+    "backline": "Browse the backline"
+  }
+}

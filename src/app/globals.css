@@ -1,0 +1,724 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DRUMASIA — "SESSION ONE" DESIGN SYSTEM
+   Four gels (theme), material classes, motion law, accessibility.
+
+   Gels (SECTION 2.3): lighting-gel selector. `data-gel` on <html>.
+   CONSOLE (default) · AMBER WASH · COOL WASH · HOUSE LIGHTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@theme inline {
+  /* Colour tokens → Tailwind utilities (bg-base, text-ink, border-hairline…). */
+  --color-base: var(--gel-base);
+  --color-panel: var(--gel-panel);
+  --color-panel-2: var(--gel-panel-2);
+  --color-accent: var(--gel-accent);
+  --color-secondary: var(--gel-secondary);
+  --color-ink: var(--gel-text-hi);
+  --color-ink-mid: var(--gel-text-mid);
+  --color-ink-dim: var(--gel-text-dim);
+  --color-live: var(--lamp-live);
+  --color-open: var(--lamp-open);
+  --color-warn: var(--lamp-warn);
+  --color-hairline: var(--gel-hairline);
+  --color-hairline-strong: var(--gel-hairline-strong);
+
+  /* Type → utilities (font-display, font-mono, font-sans). */
+  --font-display: var(--da-display);
+  --font-mono: var(--da-mono);
+  --font-sans: var(--da-sans);
+
+  /* Motion */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   SEMANTIC LAMPS — constant across all gels (SECTION 2.3).
+   ──────────────────────────────────────────────────────────────────────────── */
+:root {
+  --lamp-live: #e1332b;
+  --lamp-open: #37d18a;
+  --lamp-warn: #e8b62c;
+
+  --da-display: "Anton", "Archivo Expanded", Impact, sans-serif;
+  --da-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --da-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-input: 2px;
+  --radius-card: 10px;
+  --radius-panel: 20px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GEL 01 — CONSOLE MASTER (default)
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root,
+[data-gel="console"] {
+  color-scheme: dark;
+  --gel-base: #0b0c0e;
+  --gel-panel: #15171b;
+  --gel-panel-2: #1b1e23;
+  --gel-accent: #ffa31a;
+  --gel-secondary: #b9975b;
+  --gel-text-hi: #f2f1ec;
+  --gel-text-mid: #9c9c98;
+  --gel-text-dim: #83827b;
+  --gel-hairline: rgba(255, 255, 255, 0.07);
+  --gel-hairline-strong: rgba(255, 255, 255, 0.14);
+  --gel-inner-highlight: rgba(255, 255, 255, 0.06);
+  --gel-metal-a: #191b1f;
+  --gel-metal-b: #0d0e11;
+  --gel-glow: rgba(255, 163, 26, 0.35);
+  --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23ffffff'/%3E%3C/svg%3E");
+  --gel-perf-opacity: 0.02;
+}
+
+/* GEL 02 — DRUM STUDIO (drum-stage) */
+[data-gel="drum-stage"] {
+  color-scheme: dark;
+  --gel-base: #08090c;
+  --gel-panel: #121418;
+  --gel-panel-2: #191c22;
+  --gel-accent: #e5a93c;
+  --gel-secondary: #a3782c;
+  --gel-text-hi: #f5f3ec;
+  --gel-text-mid: #a3a199;
+  --gel-text-dim: #7a7870;
+  --gel-hairline: rgba(229, 169, 60, 0.12);
+  --gel-hairline-strong: rgba(229, 169, 60, 0.22);
+  --gel-inner-highlight: rgba(229, 169, 60, 0.08);
+  --gel-metal-a: #1a1d24;
+  --gel-metal-b: #0a0b0e;
+  --gel-glow: rgba(229, 169, 60, 0.42);
+  --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23e5a93c'/%3E%3C/svg%3E");
+  --gel-perf-opacity: 0.03;
+}
+
+/* GEL 03 — GUITAR LOUNGE (guitar-lounge / amber-wash) */
+[data-gel="guitar-lounge"],
+[data-gel="amber-wash"] {
+  color-scheme: dark;
+  --gel-base: #0f0b08;
+  --gel-panel: #1a130d;
+  --gel-panel-2: #241a12;
+  --gel-accent: #ff7a1a;
+  --gel-secondary: #d45d28;
+  --gel-text-hi: #fbf3e8;
+  --gel-text-mid: #b29f8b;
+  --gel-text-dim: #857361;
+  --gel-hairline: rgba(255, 122, 26, 0.1);
+  --gel-hairline-strong: rgba(255, 122, 26, 0.2);
+  --gel-inner-highlight: rgba(255, 255, 255, 0.06);
+  --gel-metal-a: #241a12;
+  --gel-metal-b: #120c06;
+  --gel-glow: rgba(255, 122, 26, 0.4);
+  --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23ff7a1a'/%3E%3C/svg%3E");
+  --gel-perf-opacity: 0.025;
+}
+
+/* GEL 04 — SYNTH & KEYS (synth-keys / cool-wash) */
+[data-gel="synth-keys"],
+[data-gel="cool-wash"] {
+  color-scheme: dark;
+  --gel-base: #05080e;
+  --gel-panel: #0c121d;
+  --gel-panel-2: #121a28;
+  --gel-accent: #00e5ff;
+  --gel-secondary: #a855f7;
+  --gel-text-hi: #eaf6ff;
+  --gel-text-mid: #8ba4b8;
+  --gel-text-dim: #657e94;
+  --gel-hairline: rgba(0, 229, 255, 0.12);
+  --gel-hairline-strong: rgba(0, 229, 255, 0.22);
+  --gel-inner-highlight: rgba(0, 229, 255, 0.08);
+  --gel-metal-a: #121a28;
+  --gel-metal-b: #060a10;
+  --gel-glow: rgba(0, 229, 255, 0.45);
+  --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%2300e5ff'/%3E%3C/svg%3E");
+  --gel-perf-opacity: 0.03;
+}
+
+/* GEL 05 — MIDNIGHT SKY (sky-session) */
+[data-gel="sky-session"] {
+  color-scheme: dark;
+  --gel-base: #030814;
+  --gel-panel: #091224;
+  --gel-panel-2: #0f1c34;
+  --gel-accent: #38bdf8;
+  --gel-secondary: #818cf8;
+  --gel-text-hi: #f0f8ff;
+  --gel-text-mid: #93b4d7;
+  --gel-text-dim: #627d9a;
+  --gel-hairline: rgba(56, 189, 248, 0.12);
+  --gel-hairline-strong: rgba(56, 189, 248, 0.22);
+  --gel-inner-highlight: rgba(56, 189, 248, 0.08);
+  --gel-metal-a: #0f1c34;
+  --gel-metal-b: #040916;
+  --gel-glow: rgba(56, 189, 248, 0.45);
+  --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%2338bdf8'/%3E%3C/svg%3E");
+  --gel-perf-opacity: 0.03;
+}
+
+/* GEL 06 — OBSIDIAN DARK (pure-dark) */
+[data-gel="pure-dark"] {
+  color-scheme: dark;
+  --gel-base: #030304;
+  --gel-panel: #0b0c0e;
+  --gel-panel-2: #14161a;
+  --gel-accent: #f59e0b;
+  --gel-secondary: #71717a;
+  --gel-text-hi: #f4f4f5;
+  --gel-text-mid: #a1a1aa;
+  --gel-text-dim: #71717a;
+  --gel-hairline: rgba(245, 158, 11, 0.1);
+  --gel-hairline-strong: rgba(245, 158, 11, 0.2);
+  --gel-inner-highlight: rgba(255, 255, 255, 0.05);
+  --gel-metal-a: #14161a;
+  --gel-metal-b: #050506;
+  --gel-glow: rgba(245, 158, 11, 0.38);
+  --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23f59e0b'/%3E%3C/svg%3E");
+  --gel-perf-opacity: 0.02;
+}
+
+/* GEL 07 — STAGE LIGHTS (stage-lights) */
+[data-gel="stage-lights"] {
+  color-scheme: dark;
+  --gel-base: #090412;
+  --gel-panel: #150a26;
+  --gel-panel-2: #1f0f38;
+  --gel-accent: #facc15;
+  --gel-secondary: #ec4899;
+  --gel-text-hi: #fffbeb;
+  --gel-text-mid: #d8b4e2;
+  --gel-text-dim: #926b9c;
+  --gel-hairline: rgba(250, 204, 21, 0.14);
+  --gel-hairline-strong: rgba(250, 204, 21, 0.25);
+  --gel-inner-highlight: rgba(250, 204, 21, 0.08);
+  --gel-metal-a: #1f0f38;
+  --gel-metal-b: #080310;
+  --gel-glow: rgba(250, 204, 21, 0.45);
+  --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23facc15'/%3E%3C/svg%3E");
+  --gel-perf-opacity: 0.03;
+}
+
+/* GEL 08 — HOUSE LIGHTS (light) */
+[data-gel="house-lights"] {
+  color-scheme: light;
+  --gel-base: #f7f5ef;
+  --gel-panel: #ffffff;
+  --gel-panel-2: #f0ede4;
+  --gel-accent: #c2410c;
+  --gel-secondary: #8a6a2f;
+  --gel-text-hi: #14161a;
+  --gel-text-mid: #55565a;
+  --gel-text-dim: #6f6e68;
+  --gel-hairline: rgba(20, 22, 26, 0.12);
+  --gel-hairline-strong: rgba(20, 22, 26, 0.22);
+  --gel-inner-highlight: rgba(255, 255, 255, 0.85);
+  --gel-metal-a: #ffffff;
+  --gel-metal-b: #ece8de;
+  --gel-glow: rgba(194, 65, 12, 0.3);
+  --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%2314161a'/%3E%3C/svg%3E");
+  --gel-perf-opacity: 0.03;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════════════════════════════════════ */
+@layer base {
+  * {
+    border-color: var(--gel-hairline);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--gel-base);
+    color: var(--gel-text-hi);
+    font-family: var(--da-sans);
+    font-size: 17px;
+    line-height: 1.7;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    transition:
+      background-color 400ms var(--ease-expo),
+      color 400ms var(--ease-expo);
+  }
+
+  /* Ambient warmth — a faint top-of-page glow that follows the active gel.
+     Comfortable, never loud. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(60% 42% at 50% -6%, var(--gel-glow), transparent 70%),
+      radial-gradient(42% 30% at 100% 100%, var(--gel-glow), transparent 75%);
+    opacity: 0.5;
+    transition: background 400ms var(--ease-expo);
+  }
+
+  ::selection {
+    background-color: var(--gel-accent);
+    color: var(--gel-base);
+  }
+
+  /* 2px accent focus rings, 2px offset (SECTION 12) — with a soft companion glow. */
+  :focus-visible {
+    outline: 2px solid var(--gel-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-input);
+    box-shadow: 0 0 0 4px var(--gel-glow);
+  }
+
+  .reduce-motion :focus-visible {
+    outline-offset: 2px;
+  }
+
+  /* Scrollbar — engineered, not decorative. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--gel-hairline-strong) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--gel-hairline-strong);
+    border-radius: 999px;
+    border: 2px solid var(--gel-base);
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--da-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 0.98;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MATERIAL CLASSES
+   ═══════════════════════════════════════════════════════════════════════════ */
+@layer components {
+  /* Machined panel: hairline border, inner top highlight, brushed-metal gradient,
+     plus a faint metallic sheen across the top edge. */
+  .panel {
+    position: relative;
+    border: 1px solid var(--gel-hairline);
+    border-radius: var(--radius-card);
+    background-image:
+      radial-gradient(120% 55% at 50% -12%, rgba(255, 255, 255, 0.05), transparent 58%),
+      linear-gradient(180deg, var(--gel-metal-a), var(--gel-metal-b));
+    box-shadow: inset 0 1px 0 var(--gel-inner-highlight);
+  }
+
+  .panel--hero {
+    border-radius: var(--radius-panel);
+  }
+
+  /* Engraved label — 1px dark inset + 1px light outset. */
+  .engraved {
+    color: var(--gel-text-mid);
+    text-shadow:
+      0 1px 0 var(--gel-inner-highlight),
+      0 -1px 0 rgba(0, 0, 0, 0.45);
+  }
+
+  [data-gel="house-lights"] .engraved {
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9),
+      0 -1px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  /* Mono technical label — every number, price, timecode, spec, rate, ref. */
+  .tech {
+    font-family: var(--da-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+
+  /* Perforated-metal texture on large panels (2% opacity). */
+  .perforated::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: var(--gel-perf);
+    background-size: 18px 18px;
+    opacity: var(--gel-perf-opacity);
+    pointer-events: none;
+  }
+
+  /* Warm accent glow — elevation is expressed with glow + hairlines, never grey shadows. */
+  .glow-accent {
+    box-shadow: 0 0 0 1px var(--gel-hairline), 0 0 32px -8px var(--gel-glow);
+  }
+
+  /* Film-grain overlay (CSS only — no canvas loop). 3% opacity, gently drifting. */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain-shift 2.4s steps(3) infinite;
+    will-change: transform;
+  }
+
+  @keyframes grain-shift {
+    0% {
+      transform: translate(0, 0);
+    }
+    25% {
+      transform: translate(-2%, 1.5%);
+    }
+    50% {
+      transform: translate(1.5%, -2%);
+    }
+    75% {
+      transform: translate(-1.5%, -1%);
+    }
+    100% {
+      transform: translate(2%, 1%);
+    }
+  }
+
+  /* ── LAMPS ─────────────────────────────────────────────────────────────── */
+  .lamp {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 9999px;
+    flex: none;
+  }
+  .lamp--live {
+    background: var(--lamp-live);
+    box-shadow: 0 0 8px var(--lamp-live);
+  }
+  .lamp--live.pulse {
+    animation: lamp-pulse 1s ease-in-out infinite;
+  }
+  .lamp--open {
+    background: var(--lamp-open);
+    box-shadow: 0 0 8px var(--lamp-open);
+  }
+  .lamp--open.breathe {
+    animation: lamp-breathe 2s ease-in-out infinite;
+  }
+  .lamp--warn {
+    background: var(--lamp-warn);
+    box-shadow: 0 0 8px var(--lamp-warn);
+  }
+  .lamp--off {
+    background: var(--gel-text-dim);
+    box-shadow: none;
+  }
+
+  @keyframes lamp-breathe {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.45;
+    }
+  }
+  @keyframes lamp-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.25;
+    }
+  }
+
+  /* ── TRANSPORT BAR (SECTION 2.1) ──────────────────────────────────────── */
+  .transport {
+    background-image: linear-gradient(180deg, var(--gel-metal-a), var(--gel-metal-b));
+    border-top: 1px solid var(--gel-hairline-strong);
+    box-shadow:
+      inset 0 1px 0 var(--gel-inner-highlight),
+      0 -18px 40px -20px rgba(0, 0, 0, 0.8);
+  }
+
+  .transport__label {
+    font-family: var(--da-mono);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gel-text-dim);
+  }
+
+  /* ── BUTTONS ──────────────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid var(--gel-hairline-strong);
+    border-radius: var(--radius-input);
+    font-family: var(--da-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    min-height: 44px;
+    padding: 0 1rem;
+    cursor: pointer;
+    transition:
+      transform 180ms var(--ease-expo),
+      background-color 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease,
+      box-shadow 180ms ease;
+    background: transparent;
+    color: var(--gel-text-hi);
+    box-shadow: inset 0 1px 0 var(--gel-inner-highlight);
+  }
+  .btn:hover {
+    box-shadow:
+      inset 0 1px 0 var(--gel-inner-highlight),
+      0 0 0 1px var(--gel-accent),
+      0 0 28px -10px var(--gel-glow);
+  }
+  .btn:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.35);
+  }
+  .btn--accent {
+    background: var(--gel-accent);
+    border-color: var(--gel-accent);
+    color: #0b0c0e;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      0 0 28px -8px var(--gel-glow);
+  }
+  .btn--accent:hover {
+    filter: brightness(1.07);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      0 0 36px -6px var(--gel-glow);
+  }
+  [data-gel="house-lights"] .btn--accent {
+    color: #ffffff;
+  }
+  .btn--ghost:hover {
+    border-color: var(--gel-accent);
+    color: var(--gel-accent);
+  }
+
+  /* ── SECTION DIVIDERS: real waveforms (generated at build time) ───────── */
+  .divider-wave {
+    display: block;
+    color: var(--gel-accent);
+  }
+
+  /* ── FOUNDER PORTRAIT — machined bezel + warm light sweep ─────────────── */
+  .founder-frame {
+    position: relative;
+    border: 1px solid var(--gel-hairline-strong);
+    border-radius: var(--radius-card);
+    padding: 8px;
+    background-image: linear-gradient(180deg, var(--gel-metal-a), var(--gel-metal-b));
+    box-shadow:
+      inset 0 1px 0 var(--gel-inner-highlight),
+      0 0 40px -18px var(--gel-glow);
+  }
+  .founder-frame__inner {
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    border: 1px solid var(--gel-hairline);
+  }
+  /* Warm light sweep across the image — runs once when scrolled into view. */
+  .light-sweep::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgba(255, 214, 150, 0.16) 45%,
+      rgba(255, 214, 150, 0.22) 50%,
+      rgba(255, 214, 150, 0.16) 55%,
+      transparent 80%
+    );
+    transform: translateX(-120%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .light-sweep.sweep-in::after {
+    animation: light-sweep 1.6s var(--ease-expo) 0.15s forwards;
+  }
+  @keyframes light-sweep {
+    0% {
+      transform: translateX(-120%);
+      opacity: 0;
+    }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(120%);
+      opacity: 0;
+    }
+  }
+
+  /* Engraved nameplate under the portrait. */
+  .nameplate {
+    font-family: var(--da-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gel-text-mid);
+    text-shadow:
+      0 1px 0 var(--gel-inner-highlight),
+      0 -1px 0 rgba(0, 0, 0, 0.45);
+  }
+  [data-gel="house-lights"] .nameplate {
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9),
+      0 -1px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  /* Corner screws — the "this is bolted down" premium detail. */
+  .screw {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 35% 30%, var(--gel-text-mid), var(--gel-metal-b) 70%);
+    box-shadow:
+      inset 0 1px 1px rgba(0, 0, 0, 0.6),
+      0 1px 0 var(--gel-inner-highlight);
+  }
+  .screw::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 5px;
+    height: 1px;
+    background: var(--gel-text-dim);
+    transform: translate(-50%, -50%) rotate(38deg);
+  }
+  .screw--tl {
+    top: 7px;
+    left: 7px;
+  }
+  .screw--tr {
+    top: 7px;
+    right: 7px;
+  }
+  .screw--bl {
+    bottom: 7px;
+    left: 7px;
+  }
+  .screw--br {
+    bottom: 7px;
+    right: 7px;
+  }
+
+  /* ── MARQUEE (proof strip) — pause on hover, aria-hidden ─────────────── */
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 34s linear infinite;
+  }
+  .marquee:hover {
+    animation-play-state: paused;
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      animation: none;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOTION LAW (SECTION 2.5)
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Gel cross-fade (lighting-board cue) — driven by [data-gel-transition] on <html>. */
+html.gel-transition body {
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+html.gel-transition.gel-settled body {
+  opacity: 1;
+}
+
+/* Playhead / grain / lamps are transform+opacity only. */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PREFERS-REDUCED-MOTION (SECTION 2.5 — "static, and still beautiful")
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .grain {
+    animation: none;
+  }
+  .lamp--live.pulse,
+  .lamp--open.breathe {
+    animation: none;
+  }
+  .reduce-motion,
+  .reduce-motion * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom cursor is only attached on (pointer:fine) via JS — never on touch. */
+
+/* Utility: hide scrollbar on horizontal rails while keeping scroll. */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe-area respect for the transport bar on mobile. */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
