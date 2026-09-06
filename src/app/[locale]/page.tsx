@@ -33,7 +33,7 @@ export default async function HomePage({
   return (
     <>
       {/* ═══ 01 INTRO / HERO ═══════════════════════════════════════════════ */}
-      <section className="relative flex min-h-[100dvh] flex-col justify-end overflow-hidden">
+      <section className="relative flex min-h-[90vh] flex-col justify-center overflow-hidden py-16 sm:py-24">
         {/* Soft Vignette Behind Hero Content for Reading Comfort */}
         <div
           aria-hidden="true"
@@ -65,7 +65,7 @@ export default async function HomePage({
           }}
         />
 
-        <div className="relative mx-auto w-full max-w-[1440px] px-4 pb-28 pt-32 sm:px-6">
+        <div className="relative mx-auto w-full max-w-[1440px] px-4 pt-12 pb-8 sm:px-6">
           <Reveal>
             <p className="tech mb-7 flex items-center gap-3 text-[11px] uppercase tracking-[0.3em] text-ink-mid">
               <span className="inline-block h-px w-10 bg-secondary" aria-hidden />
