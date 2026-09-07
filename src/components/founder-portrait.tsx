@@ -67,16 +67,19 @@ export function FounderPortrait({
         )}
       >
         <img
-          src={hasImage && src ? src : "/founder/portrait.jpg"}
+          src={hasImage && src ? src : "/portrait.jpg"}
           alt={`Portrait of ${name}, ${role}`}
           className="absolute inset-0 h-full w-full object-cover"
-          loading={priority ? "eager" : "lazy"}
+          loading="eager"
           onError={(e) => {
-            // fallback gracefully if image fails
             const target = e.currentTarget;
-            target.style.display = "none";
-            const fallback = target.nextElementSibling as HTMLElement | null;
-            if (fallback) fallback.style.display = "flex";
+            if (target.src.indexOf('/founder/portrait.jpg') === -1) {
+              target.src = '/founder/portrait.jpg';
+            } else {
+              target.style.display = "none";
+              const fallback = target.nextElementSibling as HTMLElement | null;
+              if (fallback) fallback.style.display = "flex";
+            }
           }}
         />
         <div style={{ display: "none" }} className="absolute inset-0">

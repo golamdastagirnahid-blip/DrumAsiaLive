@@ -181,7 +181,7 @@ export default async function HomePage({
       </section>
 
       {/* ═══ 02 THE ROOMS ══════════════════════════════════════════════════ */}
-      <section className="mx-auto max-w-[1440px] px-4 py-24 sm:px-6">
+      <section id="rooms" className="mx-auto max-w-[1440px] px-4 py-24 sm:px-6">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <Reveal>
             <div>
@@ -241,7 +241,7 @@ export default async function HomePage({
       </section>
 
       {/* ═══ 06 THE FOUNDER ════════════════════════════════════════════════ */}
-      <section className="mx-auto max-w-[1440px] px-4 py-24 sm:px-6">
+      <section id="founder" className="mx-auto max-w-[1440px] px-4 py-24 sm:px-6">
         <div className="grid items-center gap-12 lg:grid-cols-12">
           <Reveal className="lg:col-span-5">
             <FounderPortrait

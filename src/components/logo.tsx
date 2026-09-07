@@ -20,13 +20,19 @@ export function Logo({
         className="relative block rounded-full overflow-hidden shrink-0 border border-hairline transition-all duration-300 group-hover:border-accent group-hover:shadow-[0_0_12px_var(--gel-glow)]"
         style={{ width: size, height: size }}
       >
-        <Image
-          src="/brand/logo.jpg"
+        <img
+          src="/logo.jpg"
           alt="DrumAsia Live Logo"
           width={size}
           height={size}
           className="object-cover w-full h-full scale-[1.04]"
-          priority
+          loading="eager"
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (target.src.indexOf('/brand/logo.jpg') === -1) {
+              target.src = '/brand/logo.jpg';
+            }
+          }}
         />
       </span>
       {withWordmark && (
