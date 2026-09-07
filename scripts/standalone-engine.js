@@ -612,7 +612,26 @@
       var a = e.target.closest('a');
       if (!a) return;
       var href = a.getAttribute('href');
-      if (!href) return;
+      // Logo and Home link routing — ALWAYS goes back to home page cleanly
+      var isLogo = (a.getAttribute('aria-label') || '').includes('home') || 
+                   a.querySelector('img[alt*="Logo"]') || 
+                   href === '/' || 
+                   href === '/en' || 
+                   href === '/en/' || 
+                   href === '/ms' || 
+                   href === '/ms/' || 
+                   href === 'index.html';
+
+      if (isLogo) {
+        e.preventDefault();
+        var currentPath = window.location.pathname;
+        if (currentPath.endsWith('index.html') || currentPath === '/' || currentPath.endsWith('/') || currentPath === '') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          window.location.href = 'index.html';
+        }
+        return;
+      }
 
       // WhatsApp links
       if (href.includes('wa.me') || href.includes('whatsapp')) {

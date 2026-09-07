@@ -26,7 +26,9 @@ export function Footer() {
         {/* Top: patchbay columns */}
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
-            <Logo className="text-ink" />
+            <a href="index.html" aria-label="DrumAsia — home" className="inline-block text-ink">
+              <Logo className="text-ink" />
+            </a>
             <p className="mt-4 max-w-[38ch] text-[15px] leading-relaxed text-ink-mid">
               {t("tagline")}
             </p>

@@ -54,10 +54,10 @@ export function Header() {
       )}
     >
       <div className="mx-auto flex h-[68px] max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6">
-        {/* Left: logo (client-side Link to prevent page reloads) */}
-        <LocalizedLink href="/" aria-label="DrumAsia — home" className="shrink-0 text-ink">
+        {/* Left: logo — links directly to index.html / home */}
+        <a href="index.html" aria-label="DrumAsia — home" className="shrink-0 text-ink">
           <Logo />
-        </LocalizedLink>
+        </a>
 
         {/* Centre: recursive nav (desktop) */}
         <div className="flex flex-1 items-center justify-center">
