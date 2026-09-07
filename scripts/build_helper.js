@@ -53,45 +53,19 @@ function processHtmlFile(filePath) {
     html = html.replace('<head>', '<head>\n<meta name="robots" content="index, follow">');
   }
 
-  // Viewport & Desktop Mode for Mobile
-  const viewportTag = '<meta name="viewport" id="da-viewport" content="width=1280, initial-scale=0.3, minimum-scale=0.2, maximum-scale=5.0, user-scalable=yes">';
-  const viewportEngineScript = `<script id="da-viewport-engine">
-(function() {
-  function fit() {
-    var vp = document.getElementById('da-viewport') || document.querySelector('meta[name="viewport"]');
-    if (!vp) return;
-    var sw = window.screen.width;
-    var sh = window.screen.height;
-    var isLandscape = window.matchMedia && window.matchMedia('(orientation: landscape)').matches;
-    var realW = isLandscape ? Math.max(sw, sh) : Math.min(sw, sh);
-    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || ('ontouchstart' in window && realW < 1024);
+  // Standard responsive mobile viewport — balanced, readable text & auto-fit
+  const viewportTag = '<meta name="viewport" id="da-viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">';
 
-    if (isMobile || realW < 1280) {
-      var tw = 1280;
-      var scale = +(realW / tw).toFixed(4);
-      if (scale > 1) scale = 1;
-      vp.setAttribute('content', 'width=' + tw + ', initial-scale=' + scale + ', minimum-scale=' + (scale * 0.5).toFixed(4) + ', maximum-scale=5.0, user-scalable=yes');
-    } else {
-      vp.setAttribute('content', 'width=device-width, initial-scale=1, viewport-fit=cover');
-    }
-  }
-  fit();
-  window.addEventListener('resize', fit);
-  window.addEventListener('orientationchange', fit);
-})();
-</script>`;
-
-  if (html.includes('id="da-viewport-engine"')) {
-    html = html.replace(/<script id="da-viewport-engine">[\s\S]*?<\/script>/, viewportEngineScript);
-  } else {
-    html = html.replace('</head>', viewportEngineScript + '\n</head>');
-  }
-
-  // Replace any existing viewport meta tag with desktop-mode viewport tag
+  // Replace any existing viewport meta tag
   if (html.includes('<meta name="viewport"')) {
     html = html.replace(/<meta name="viewport"[^>]*>/i, viewportTag);
   } else {
     html = html.replace('<head>', '<head>\n' + viewportTag);
+  }
+
+  // Remove any legacy da-viewport-engine script
+  if (html.includes('id="da-viewport-engine"')) {
+    html = html.replace(/<script id="da-viewport-engine">[\s\S]*?<\/script>/, '');
   }
 
   // Standalone Engine replacement

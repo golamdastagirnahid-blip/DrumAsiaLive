@@ -57,11 +57,9 @@ export async function generateMetadata({
 
 export const viewport: Viewport = {
   themeColor: site.themeColor,
-  width: 1280,
-  initialScale: 0.3,
-  minimumScale: 0.2,
-  maximumScale: 5,
-  userScalable: true,
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default async function LocaleLayout({

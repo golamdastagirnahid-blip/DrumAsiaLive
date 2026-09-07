@@ -36,9 +36,15 @@ export function NavMobile({ items }: { items: NavNodeItem[] }) {
         aria-label="Open menu"
         aria-expanded={open}
         aria-haspopup="dialog"
-        className="grid h-11 w-11 place-items-center rounded-[6px] text-ink transition-colors hover:text-accent lg:hidden"
+        id="da-menu-btn"
+        className="da-menu-btn flex items-center gap-1.5 h-10 px-2.5 rounded-[6px] border border-hairline-strong bg-panel/70 text-ink hover:text-accent hover:border-accent transition-all lg:hidden"
       >
-        <Menu className="h-5 w-5" aria-hidden />
+        <span className="flex flex-col gap-[3px] justify-center items-center" aria-hidden>
+          <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
+        </span>
+        <span className="tech text-[11px] uppercase tracking-[0.14em] font-semibold text-ink">MENU</span>
       </button>
 
       {open && (

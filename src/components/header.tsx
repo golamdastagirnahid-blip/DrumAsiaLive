@@ -68,7 +68,9 @@ export function Header() {
         <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
           <JammingSoundController compact />
           <GelSelector />
-          <LocaleSwitcher />
+          <div className="hidden sm:inline-flex">
+            <LocaleSwitcher />
+          </div>
           <BookButton
             payload={bookPayload}
             label={t("book")}

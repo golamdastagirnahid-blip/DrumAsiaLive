@@ -100,6 +100,11 @@
         el.textContent = timecodeStr;
       }
     });
+
+    var dw = document.getElementById('da-drawer-weather');
+    if (dw) dw.textContent = weatherText;
+    var dt = document.getElementById('da-drawer-tc');
+    if (dt) dt.textContent = timecodeStr;
   }
 
   setInterval(updateDisplay, 100);
@@ -577,58 +582,73 @@
       });
   }
 
+  // Shared Menu Data Definition (used by both Desktop Mega-Menus and Mobile 3-Dot Slide Drawer)
+  var MENUS_DATA = {
+    'rooms': {
+      title: 'STUDIO ROOMS',
+      badge: '5 ROOMS',
+      icon: '🥁',
+      mainHref: 'rooms.html',
+      items: [
+        { name: 'Studio Ori', desc: 'Desa Sri Hartamas — Signature Rehearsal & Live Tracking', href: 'rooms.html' },
+        { name: 'Live Stage', desc: 'Full Performance Hall with Stage Lighting & PA', href: 'rooms.html' },
+        { name: 'Lagenda Room', desc: 'Acoustic-Treated High-Energy Band Rehearsal', href: 'rooms.html' },
+        { name: 'Bilik Kompang', desc: 'Kota Damansara Branch Studio', href: 'rooms.html' },
+        { name: 'View All Rooms & Pricing →', desc: 'Compare room specs, rates and features', href: 'rooms.html', highlight: true }
+      ]
+    },
+    'backline': {
+      title: 'BACKLINE RENTAL',
+      badge: 'GEAR',
+      icon: '🎸',
+      mainHref: 'backline.html',
+      items: [
+        { name: 'Drum Kits & Snare Drums', desc: 'Tama Starclassic, Pearl Masters, DW Collector Series', href: 'backline.html' },
+        { name: 'Guitar & Bass Amplifiers', desc: 'Marshall JCM, Fender Twin Reverb, Ampeg SVT', href: 'backline.html' },
+        { name: 'Keyboards & Stage Pianos', desc: 'Nord Stage, Roland RD, Yamaha Motif', href: 'backline.html' },
+        { name: 'Browse Full Backline Catalog →', desc: 'Day rates, delivery & on-stage support', href: 'backline.html', highlight: true }
+      ]
+    },
+    'record': {
+      title: 'RECORDING & PRODUCTION',
+      badge: 'STUDIO',
+      icon: '🎙️',
+      mainHref: 'record.html',
+      items: [
+        { name: 'Multi-Track Studio Recording', desc: 'Live band tracking, vocal recording, mixing & mastering', href: 'record.html' },
+        { name: 'Live Room Session Recording', desc: 'Capture your live show with multi-camera & audio stem', href: 'live-room.html' },
+        { name: 'Recording Rates & Studio Booking →', desc: 'Desa Sri Hartamas studio suite', href: 'record.html', highlight: true }
+      ]
+    },
+    'live': {
+      title: 'LIVE VENUE & STAGE',
+      badge: 'STAGE',
+      icon: '⚡',
+      mainHref: 'live.html',
+      items: [
+        { name: 'Gig Venue & Show Booking', desc: 'Basement stage with pro sound engineer & lighting technician', href: 'live.html' },
+        { name: 'Stage Specs & Capacity', desc: 'Full load-in specs, crowd capacity and rider', href: 'load-in.html' },
+        { name: 'Book Live Venue →', desc: 'WhatsApp live coordinator for calendar slots', href: 'live.html', highlight: true }
+      ]
+    },
+    'more': {
+      title: 'EXPLORE DRUM ASIA',
+      badge: 'INFO',
+      icon: '📍',
+      mainHref: 'founders.html',
+      items: [
+        { name: 'Our Story & Founder', desc: 'Desa Sri Hartamas since 2014 — Meet the founder', href: 'founders.html' },
+        { name: 'Contact, Location & Map', desc: '7-2 Jalan 22a/70a, Desa Sri Hartamas, Kuala Lumpur', href: 'contact.html' },
+        { name: 'Load-In & Gear Logistics', desc: 'Parking, elevator, load-in bay instructions', href: 'load-in.html' },
+        { name: 'FAQ & Studio Rules', desc: 'Cancellations, booking policy and session guidelines', href: 'faq.html' }
+      ]
+    }
+  };
+
   // === 5. DESKTOP MEGA-DROPDOWNS & NAVIGATION ENHANCEMENT ===
   function setupDesktopDropdowns() {
     var navUl = document.querySelector('header nav ul');
     if (!navUl) return;
-
-    // Dropdown Data Definition
-    var menus = {
-      'rooms': {
-        title: 'STUDIO ROOMS',
-        items: [
-          { name: 'Studio Ori', desc: 'Desa Sri Hartamas — Signature Rehearsal & Live Tracking', href: 'rooms.html' },
-          { name: 'Live Stage', desc: 'Full Performance Hall with Stage Lighting & PA', href: 'rooms.html' },
-          { name: 'Lagenda Room', desc: 'Acoustic-Treated High-Energy Band Rehearsal', href: 'rooms.html' },
-          { name: 'Bilik Kompang', desc: 'Kota Damansara Branch Studio', href: 'rooms.html' },
-          { name: 'View All Rooms & Pricing →', desc: 'Compare room specs, rates and features', href: 'rooms.html', highlight: true }
-        ]
-      },
-      'backline': {
-        title: 'BACKLINE RENTAL',
-        items: [
-          { name: 'Drum Kits & Snare Drums', desc: 'Tama Starclassic, Pearl Masters, DW Collector Series', href: 'backline.html' },
-          { name: 'Guitar & Bass Amplifiers', desc: 'Marshall JCM, Fender Twin Reverb, Ampeg SVT', href: 'backline.html' },
-          { name: 'Keyboards & Stage Pianos', desc: 'Nord Stage, Roland RD, Yamaha Motif', href: 'backline.html' },
-          { name: 'Browse Full Backline Catalog →', desc: 'Day rates, delivery & on-stage support', href: 'backline.html', highlight: true }
-        ]
-      },
-      'record': {
-        title: 'RECORDING & PRODUCTION',
-        items: [
-          { name: 'Multi-Track Studio Recording', desc: 'Live band tracking, vocal recording, mixing & mastering', href: 'record.html' },
-          { name: 'Live Room Session Recording', desc: 'Capture your live show with multi-camera & audio stem', href: 'live-room.html' },
-          { name: 'Recording Rates & Studio Booking →', desc: 'Desa Sri Hartamas studio suite', href: 'record.html', highlight: true }
-        ]
-      },
-      'live': {
-        title: 'LIVE VENUE & STAGE',
-        items: [
-          { name: 'Gig Venue & Show Booking', desc: 'Basement stage with pro sound engineer & lighting technician', href: 'live.html' },
-          { name: 'Stage Specs & Capacity', desc: 'Full load-in specs, crowd capacity and rider', href: 'load-in.html' },
-          { name: 'Book Live Venue →', desc: 'WhatsApp live coordinator for calendar slots', href: 'live.html', highlight: true }
-        ]
-      },
-      'more': {
-        title: 'EXPLORE DRUM ASIA',
-        items: [
-          { name: 'Our Story & Founder', desc: 'Desa Sri Hartamas since 2014 — Meet the founder', href: 'founders.html' },
-          { name: 'Contact, Location & Map', desc: '7-2 Jalan 22a/70a, Desa Sri Hartamas, Kuala Lumpur', href: 'contact.html' },
-          { name: 'Load-In & Gear Logistics', desc: 'Parking, elevator, load-in bay instructions', href: 'load-in.html' },
-          { name: 'FAQ & Studio Rules', desc: 'Cancellations, booking policy and session guidelines', href: 'faq.html' }
-        ]
-      }
-    };
 
     var topLis = navUl.querySelectorAll('li');
     topLis.forEach(function(li) {
@@ -654,17 +674,17 @@
         };
       }
 
-      if (menuKey && menus[menuKey] && !li.querySelector('.da-mega-dropdown')) {
+      if (menuKey && MENUS_DATA[menuKey] && !li.querySelector('.da-mega-dropdown')) {
         li.style.position = 'relative';
-        var menuDef = menus[menuKey];
+        var menuDef = MENUS_DATA[menuKey];
         var drop = document.createElement('div');
         drop.className = 'da-mega-dropdown';
         drop.style.cssText = 'display:none;position:absolute;top:100%;left:0;min-width:320px;background:rgba(14,16,20,0.98);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px;box-shadow:0 16px 40px rgba(0,0,0,0.9);backdrop-filter:blur(20px);z-index:9999;';
 
-        var html = '<div style="font-family:JetBrains Mono,monospace;font-size:9.5px;color:#FFA31A;letter-spacing:0.2em;margin-bottom:8px;padding:0 8px;">' + menuDef.title + '</div><div style="display:flex;flex-direction:column;gap:4px;">';
+        var html = '<div style="font-family:JetBrains Mono,monospace;font-size:9.5px;color:var(--gel-accent);letter-spacing:0.2em;margin-bottom:8px;padding:0 8px;">' + menuDef.title + '</div><div style="display:flex;flex-direction:column;gap:4px;">';
         menuDef.items.forEach(function(it) {
           html += '<a href="' + it.href + '" style="display:block;padding:8px;border-radius:6px;text-decoration:none;transition:all 0.2s;background:' + (it.highlight ? 'rgba(255,163,26,0.1)' : 'transparent') + ';border:' + (it.highlight ? '1px solid rgba(255,163,26,0.3)' : '1px solid transparent') + ';" onmouseover="this.style.background=\'rgba(255,255,255,0.06)\'" onmouseout="this.style.background=\'' + (it.highlight ? 'rgba(255,163,26,0.1)' : 'transparent') + '\'">' +
-            '<div style="color:' + (it.highlight ? '#FFA31A' : '#fff') + ';font-size:13px;font-weight:600;font-family:Inter,sans-serif;">' + it.name + '</div>' +
+            '<div style="color:' + (it.highlight ? 'var(--gel-accent)' : '#fff') + ';font-size:13px;font-weight:600;font-family:Inter,sans-serif;">' + it.name + '</div>' +
             '<div style="color:#888;font-size:11px;font-family:Inter,sans-serif;margin-top:2px;">' + it.desc + '</div>' +
           '</a>';
         });
@@ -672,7 +692,7 @@
         drop.innerHTML = html;
         li.appendChild(drop);
 
-        // Hover & touch handlers
+        // Hover handlers
         var closeTimer = null;
         li.addEventListener('mouseenter', function() {
           if (closeTimer) clearTimeout(closeTimer);
@@ -681,22 +701,154 @@
         li.addEventListener('mouseleave', function() {
           closeTimer = setTimeout(function() { drop.style.display = 'none'; }, 150);
         });
-
-        // Touch support for mobile devices in desktop mode
-        li.addEventListener('touchstart', function(e) {
-          if (e.target.closest('a')) return;
-          if (drop.style.display !== 'block') {
-            document.querySelectorAll('.da-mega-dropdown').forEach(function(d) { d.style.display = 'none'; });
-            drop.style.display = 'block';
-          }
-        }, { passive: true });
-
-        document.addEventListener('touchstart', function(e) {
-          if (!li.contains(e.target)) {
-            drop.style.display = 'none';
-          }
-        }, { passive: true });
       }
+    });
+  }
+
+  // === 6. MOBILE 3-DOT / SLIDE NAVIGATION DRAWER (WITH ALL DROPDOWNS) ===
+  function setupMobileDrawer() {
+    var existing = document.getElementById('da-mobile-drawer');
+    if (existing) existing.remove();
+
+    var mobileDrawer = document.createElement('div');
+    mobileDrawer.id = 'da-mobile-drawer';
+    mobileDrawer.style.cssText = 'display:none;position:fixed;inset:0;z-index:999999;background:rgba(10,11,14,0.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);overflow-y:auto;padding:16px 16px 40px 16px;box-sizing:border-box;font-family:Inter,sans-serif;';
+
+    var html = [
+      '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:14px;margin-bottom:14px;">',
+        '<div style="display:flex;align-items:center;gap:10px;">',
+          '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#37D18A;box-shadow:0 0 8px #37D18A;"></span>',
+          '<span style="font-family:Anton,sans-serif;font-size:21px;text-transform:uppercase;color:#fff;letter-spacing:0.04em;">DRUM<span style="color:var(--gel-accent);">ASIA</span> LIVE</span>',
+        '</div>',
+        '<button id="da-close-btn" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#fff;width:38px;height:38px;border-radius:8px;font-size:18px;cursor:pointer;display:grid;place-items:center;">✕</button>',
+      '</div>',
+
+      // Quick Booking Strip
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">',
+        '<a href="https://wa.me/60125161670?text=Hi%20DrumAsia%20Live%2C%20I%20would%20like%20to%20book%20a%20slot" target="_blank" style="background:var(--gel-accent);color:#0B0C0E;font-weight:700;text-align:center;padding:11px 8px;border-radius:6px;text-decoration:none;font-size:11px;letter-spacing:0.08em;font-family:JetBrains Mono,monospace;display:flex;align-items:center;justify-content:center;gap:6px;">',
+          '<span>WHATSAPP BOOK</span>',
+        '</a>',
+        '<a href="tel:0125161670" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:#fff;font-weight:600;text-align:center;padding:11px 8px;border-radius:6px;text-decoration:none;font-size:11px;letter-spacing:0.08em;font-family:JetBrains Mono,monospace;display:flex;align-items:center;justify-content:center;gap:6px;">',
+          '<span>012-516 1670</span>',
+        '</a>',
+      '</div>',
+
+      // Dropdown Categories Accordions
+      '<div style="color:#888;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;padding-left:2px;font-family:JetBrains Mono,monospace;">ALL STUDIO MENUS &amp; SERVICES</div>',
+      '<div style="display:flex;flex-direction:column;gap:8px;" id="da-drawer-accordions">'
+    ];
+
+    Object.keys(MENUS_DATA).forEach(function(key, idx) {
+      var m = MENUS_DATA[key];
+      var isOpen = (idx === 0);
+
+      html.push(
+        '<div class="da-accordion-group" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;overflow:hidden;">',
+          '<button type="button" class="da-accordion-toggle" data-target="da-acc-' + key + '" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:none;border:none;cursor:pointer;text-align:left;">',
+            '<div style="display:flex;align-items:center;gap:10px;">',
+              '<span style="font-size:16px;">' + m.icon + '</span>',
+              '<span style="font-family:Inter,sans-serif;font-size:14px;font-weight:700;color:#fff;letter-spacing:0.02em;">' + m.title + '</span>',
+            '</div>',
+            '<div style="display:flex;align-items:center;gap:8px;">',
+              '<span style="font-family:JetBrains Mono,monospace;font-size:9.5px;color:var(--gel-accent);background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;border:1px solid rgba(255,255,255,0.08);">' + m.badge + '</span>',
+              '<span class="da-accordion-arrow" style="color:#888;font-size:12px;transition:transform 0.2s;display:inline-block;transform:' + (isOpen ? 'rotate(180deg)' : 'rotate(0deg)') + ';">▼</span>',
+            '</div>',
+          '</button>',
+          '<div id="da-acc-' + key + '" class="da-accordion-content" style="display:' + (isOpen ? 'flex' : 'none') + ';flex-direction:column;gap:4px;padding:4px 10px 10px 10px;border-top:1px solid rgba(255,255,255,0.06);">'
+      );
+
+      m.items.forEach(function(it) {
+        html.push(
+          '<a href="' + it.href + '" class="da-drawer-item" style="display:block;padding:9px 10px;border-radius:6px;text-decoration:none;background:' + (it.highlight ? 'rgba(255,163,26,0.12)' : 'rgba(255,255,255,0.02)') + ';border:' + (it.highlight ? '1px solid rgba(255,163,26,0.3)' : '1px solid rgba(255,255,255,0.04)') + ';margin-top:2px;">',
+            '<div style="display:flex;justify-content:space-between;align-items:center;">',
+              '<span style="color:' + (it.highlight ? 'var(--gel-accent)' : '#fff') + ';font-size:13.5px;font-weight:600;font-family:Inter,sans-serif;">' + it.name + '</span>',
+              '<span style="color:' + (it.highlight ? 'var(--gel-accent)' : '#666') + ';font-size:12px;">→</span>',
+            '</div>',
+            '<div style="color:#888;font-size:11px;font-family:Inter,sans-serif;margin-top:2px;line-height:1.4;">' + it.desc + '</div>',
+          '</a>'
+        );
+      });
+
+      html.push('</div></div>');
+    });
+
+    html.push(
+      '</div>',
+
+      // Direct shortcuts
+      '<div style="margin-top:16px;display:flex;flex-direction:column;gap:6px;">',
+        '<div style="color:#888;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px;padding-left:2px;font-family:JetBrains Mono,monospace;">QUICK SHORTCUTS</div>',
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">',
+          '<a href="load-in.html" style="display:block;padding:10px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);text-decoration:none;">',
+            '<div style="color:#fff;font-size:12px;font-weight:600;">Load-In Bay</div>',
+            '<div style="color:#777;font-size:10px;margin-top:1px;">Gear parking &amp; lift</div>',
+          '</a>',
+          '<a href="faq.html" style="display:block;padding:10px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);text-decoration:none;">',
+            '<div style="color:#fff;font-size:12px;font-weight:600;">FAQ &amp; Rules</div>',
+            '<div style="color:#777;font-size:10px;margin-top:1px;">Booking policy</div>',
+          '</a>',
+        '</div>',
+      '</div>',
+
+      // Studio Themes & Language Footer
+      '<div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;gap:8px;">',
+        '<button type="button" id="da-drawer-theme-btn" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;">',
+          '<div style="display:flex;align-items:center;gap:10px;">',
+            '<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--gel-accent);box-shadow:0 0 8px var(--gel-accent);"></span>',
+            '<span style="font-family:JetBrains Mono,monospace;font-size:11.5px;color:#fff;text-transform:uppercase;letter-spacing:0.1em;">CHANGE STUDIO THEME</span>',
+          '</div>',
+          '<span style="font-family:JetBrains Mono,monospace;font-size:10px;color:#888;">7 PRESETS →</span>',
+        '</button>',
+        '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 4px;">',
+          '<div style="font-family:JetBrains Mono,monospace;font-size:10.5px;color:#888;" id="da-drawer-weather">' + weatherText + '</div>',
+          '<div style="font-family:JetBrains Mono,monospace;font-size:10.5px;color:var(--gel-accent);letter-spacing:0.08em;" id="da-drawer-tc">00:00:00:00</div>',
+        '</div>',
+      '</div>'
+    );
+
+    mobileDrawer.innerHTML = html.join('');
+    document.body.appendChild(mobileDrawer);
+
+    // Accordion toggle click handlers
+    mobileDrawer.querySelectorAll('.da-accordion-toggle').forEach(function(btn) {
+      btn.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var targetId = btn.getAttribute('data-target');
+        var content = document.getElementById(targetId);
+        var arrow = btn.querySelector('.da-accordion-arrow');
+        if (!content) return;
+        var isShown = (content.style.display === 'flex');
+        content.style.display = isShown ? 'none' : 'flex';
+        if (arrow) arrow.style.transform = isShown ? 'rotate(0deg)' : 'rotate(180deg)';
+      };
+    });
+
+    // Theme button inside drawer
+    var drawerThemeBtn = document.getElementById('da-drawer-theme-btn');
+    if (drawerThemeBtn) {
+      drawerThemeBtn.onclick = function(e) {
+        e.preventDefault();
+        closeDrawer();
+        var themeModal = document.getElementById('da-theme-modal');
+        if (themeModal) themeModal.style.display = 'grid';
+      };
+    }
+
+    // Close button
+    var closeBtn = document.getElementById('da-close-btn');
+    if (closeBtn) closeBtn.onclick = closeDrawer;
+
+    // Links inside drawer close the drawer and navigate
+    mobileDrawer.querySelectorAll('a').forEach(function(a) {
+      a.onclick = function(e) {
+        var href = a.getAttribute('href');
+        if (!href) return;
+        if (href.startsWith('http') || href.startsWith('tel:')) return;
+        e.preventDefault();
+        closeDrawer();
+        navigateTo(href);
+      };
     });
   }
 
@@ -808,6 +960,7 @@
   document.addEventListener('DOMContentLoaded', function() {
     onScroll();
     setupDesktopDropdowns();
+    setupMobileDrawer();
     setupThemeModal();
 
     // Unlock Web Audio on first gesture
@@ -844,56 +997,33 @@
       }
     });
 
-    // Mobile Navigation Drawer
-    var mobileDrawer = document.createElement('div');
-    mobileDrawer.id = 'da-mobile-drawer';
-    mobileDrawer.style.cssText = 'display:none;position:fixed;inset:0;z-index:999999;background:rgba(11,12,14,0.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);overflow-y:auto;padding:24px;';
-
-    var drawerContent = [
-      '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:16px;margin-bottom:20px;">',
-        '<div style="display:flex;align-items:center;gap:10px;">',
-          '<span style="font-family:Anton,sans-serif;font-size:22px;text-transform:uppercase;color:#fff;">DRUM<span style="color:#FFA31A;">ASIA</span> LIVE</span>',
-        '</div>',
-        '<button id="da-close-btn" style="background:none;border:1px solid #444;color:#fff;width:40px;height:40px;border-radius:6px;font-size:20px;cursor:pointer;display:grid;place-items:center;">✕</button>',
-      '</div>',
-      '<nav style="display:flex;flex-direction:column;gap:8px;font-family:Inter,sans-serif;">',
-        '<div style="color:#888;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px;">MAIN PAGES</div>',
-        '<a href="rooms.html" class="da-drawer-link" style="color:#fff;font-weight:600;font-size:16px;padding:10px 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;"><span>ROOMS & STUDIOS</span><span style="color:#FFA31A;">&rarr;</span></a>',
-        '<a href="backline.html" class="da-drawer-link" style="color:#fff;font-weight:600;font-size:16px;padding:10px 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;"><span>BACKLINE RENTAL</span><span style="color:#FFA31A;">&rarr;</span></a>',
-        '<a href="record.html" class="da-drawer-link" style="color:#fff;font-weight:600;font-size:16px;padding:10px 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;"><span>RECORDING STUDIO</span><span style="color:#FFA31A;">&rarr;</span></a>',
-        '<a href="live.html" class="da-drawer-link" style="color:#fff;font-weight:600;font-size:16px;padding:10px 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;"><span>LIVE VENUE & STAGE</span><span style="color:#FFA31A;">&rarr;</span></a>',
-        '<a href="founders.html" class="da-drawer-link" style="color:#fff;font-weight:600;font-size:16px;padding:10px 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;"><span>OUR STORY / FOUNDER</span><span style="color:#FFA31A;">&rarr;</span></a>',
-        '<a href="contact.html" class="da-drawer-link" style="color:#fff;font-weight:600;font-size:16px;padding:10px 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;"><span>CONTACT & LOCATION</span><span style="color:#FFA31A;">&rarr;</span></a>',
-        '<a href="faq.html" class="da-drawer-link" style="color:#fff;font-weight:600;font-size:16px;padding:10px 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;"><span>FAQ</span><span style="color:#FFA31A;">&rarr;</span></a>',
-        '<div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">',
-          '<a href="https://wa.me/60125161670?text=Hi%20DrumAsia%20Live%2C%20I%20would%20like%20to%20book%20a%20slot" target="_blank" style="background:#FFA31A;color:#000;font-weight:700;text-align:center;padding:14px;border-radius:8px;text-decoration:none;font-size:15px;letter-spacing:0.04em;">BOOK ON WHATSAPP</a>',
-          '<a href="tel:0125161670" style="background:transparent;border:1px solid #444;color:#fff;text-align:center;padding:12px;border-radius:8px;text-decoration:none;font-size:14px;">CALL 012-516 1670</a>',
-        '</div>',
-      '</nav>'
-    ].join('');
-
-    mobileDrawer.innerHTML = drawerContent;
-    document.body.appendChild(mobileDrawer);
-
+    // Mobile Navigation Drawer open & close controllers
     function openDrawer() {
-      mobileDrawer.style.display = 'block';
-      document.body.style.overflow = 'hidden';
+      var d = document.getElementById('da-mobile-drawer');
+      if (d) {
+        d.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
     }
 
     closeDrawer = function() {
-      mobileDrawer.style.display = 'none';
-      document.body.style.overflow = '';
+      var d = document.getElementById('da-mobile-drawer');
+      if (d) {
+        d.style.display = 'none';
+        document.body.style.overflow = '';
+      }
     };
 
     document.addEventListener('click', function(e) {
-      var btn = e.target.closest('button[aria-label*="menu"], button[aria-label*="Menu"], button:has(svg.lucide-menu)');
+      var btn = e.target.closest('button[aria-label*="menu"], button[aria-label*="Menu"], button:has(svg.lucide-menu), #da-menu-btn, .da-menu-btn');
       if (btn && btn.id !== 'da-close-btn') {
         e.preventDefault();
         openDrawer();
       }
     });
 
-    document.getElementById('da-close-btn').addEventListener('click', closeDrawer);
+    var closeBtn = document.getElementById('da-close-btn');
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
 
     window.addEventListener('popstate', function() {
       navigateTo(window.location.href, false);
