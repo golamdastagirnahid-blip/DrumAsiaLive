@@ -27,7 +27,7 @@ export function EquipmentBrandTitle({ className }: { className?: string }) {
   return (
     <div className={cn("relative w-full select-none", className)}>
       {/* Precision Machined Studio Equipment Badge */}
-      <div className="relative overflow-hidden rounded-[14px] border border-hairline-strong bg-gradient-to-b from-panel/90 via-panel-2/95 to-base/95 p-4 sm:p-6 md:p-8 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_30px_var(--gel-glow)]">
+      <div className="relative mx-auto max-w-[760px] overflow-hidden rounded-[12px] border border-hairline-strong bg-gradient-to-b from-panel/90 via-panel-2/95 to-base/95 p-3 sm:p-4 md:p-5 backdrop-blur-xl shadow-[0_16px_36px_rgba(0,0,0,0.75),0_0_20px_var(--gel-glow)]">
         {/* Four Corner Machined Hex Screws */}
         <span className="screw screw--tl" aria-hidden />
         <span className="screw screw--tr" aria-hidden />
@@ -35,32 +35,32 @@ export function EquipmentBrandTitle({ className }: { className?: string }) {
         <span className="screw screw--br" aria-hidden />
 
         {/* Top Equipment Status Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline/80 pb-3 sm:pb-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-hairline/80 pb-2 sm:pb-3">
           <div className="flex items-center gap-2">
-            <span className="relative flex h-2.5 w-2.5">
+            <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
             </span>
-            <span className="tech text-[10px] sm:text-[11px] font-semibold tracking-[0.28em] text-accent uppercase">
+            <span className="tech text-[9px] sm:text-[10px] font-semibold tracking-[0.24em] text-accent uppercase">
               STUDIO EQUIPMENT TYPOGRAPHY · MASTER SPEC
             </span>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="tech text-[9px] uppercase tracking-[0.2em] text-ink-dim hidden sm:inline">
+            <span className="tech text-[8.5px] uppercase tracking-[0.18em] text-ink-dim hidden sm:inline">
               ANALOG CONSOLE · 24-BIT / 96KHZ
             </span>
-            <span className="rounded-[3px] border border-accent/40 bg-accent/10 px-2 py-0.5 tech text-[9px] font-mono tracking-widest text-accent font-bold">
+            <span className="rounded-[3px] border border-accent/40 bg-accent/10 px-1.5 py-0.5 tech text-[8.5px] font-mono tracking-widest text-accent font-bold">
               EST. 2014
             </span>
           </div>
         </div>
 
         {/* The World-Class Equipment Typography Display */}
-        <div className="relative my-4 sm:my-6 flex justify-center items-center py-2 sm:py-4">
+        <div className="relative my-2 sm:my-3 flex justify-center items-center py-1 sm:py-2">
           <svg
             viewBox="0 0 920 180"
-            className="w-full h-auto max-w-[900px] overflow-visible drop-shadow-[0_12px_24px_rgba(0,0,0,0.8)]"
+            className="w-full h-auto max-w-[640px] overflow-visible drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
             aria-label="DRUM ASIA LIVE crafted with musical and studio equipment"
           >
             <defs>

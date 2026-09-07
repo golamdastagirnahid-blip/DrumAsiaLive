@@ -181,7 +181,7 @@ export default async function HomePage({
       </section>
 
       {/* ═══ 02 THE ROOMS ══════════════════════════════════════════════════ */}
-      <section id="rooms" className="mx-auto max-w-[1440px] px-4 py-24 sm:px-6">
+      <section id="rooms" className="mx-auto max-w-[1440px] px-4 py-14 sm:py-18 sm:px-6">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <Reveal>
             <div>
@@ -241,7 +241,7 @@ export default async function HomePage({
       </section>
 
       {/* ═══ 06 THE FOUNDER ════════════════════════════════════════════════ */}
-      <section id="founder" className="mx-auto max-w-[1440px] px-4 py-24 sm:px-6">
+      <section id="founder" className="mx-auto max-w-[1440px] px-4 py-14 sm:py-18 sm:px-6">
         <div className="grid items-center gap-12 lg:grid-cols-12">
           <Reveal className="lg:col-span-5">
             <FounderPortrait
@@ -282,7 +282,7 @@ export default async function HomePage({
       </section>
 
       {/* ═══ THE 3Ps ═══════════════════════════════════════════════════════ */}
-      <section className="mx-auto max-w-[1440px] px-4 pb-24 sm:px-6">
+      <section className="mx-auto max-w-[1440px] px-4 pb-14 sm:px-6">
         <div className="grid gap-4 md:grid-cols-3">
           {[
             {
@@ -299,9 +299,9 @@ export default async function HomePage({
             },
           ].map((x, i) => (
             <Reveal key={x.p} delay={i * 80}>
-              <div className="panel perforated relative overflow-hidden p-7">
-                <h2 className="text-[2.6rem] text-secondary">{x.p}.</h2>
-                <p className="mt-3 max-w-[34ch] text-[15px] leading-relaxed text-ink-mid">
+              <div className="panel perforated relative overflow-hidden p-6">
+                <h2 className="text-[2.2rem] text-secondary">{x.p}.</h2>
+                <p className="mt-2.5 max-w-[34ch] text-[14px] leading-relaxed text-ink-mid">
                   {x.body}
                 </p>
               </div>
@@ -311,7 +311,7 @@ export default async function HomePage({
       </section>
 
       {/* ═══ 08 OUTRO ══════════════════════════════════════════════════════ */}
-      <section className="mx-auto max-w-[1440px] px-4 pb-28 sm:px-6">
+      <section className="mx-auto max-w-[1440px] px-4 pb-16 sm:px-6">
         <Reveal>
           <div className="panel panel--hero perforated relative overflow-hidden p-9 md:p-16">
             <h2 className="font-display text-[clamp(2.4rem,8vw,6rem)] leading-[0.9] text-ink">

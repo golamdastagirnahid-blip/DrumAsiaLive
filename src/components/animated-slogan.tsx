@@ -37,7 +37,7 @@ export function AnimatedSlogan({
   ];
 
   return (
-    <div className={cn("relative flex flex-col gap-4 sm:gap-6 py-2 select-none", className)}>
+    <div className={cn("relative flex flex-col gap-2 sm:gap-3 py-1 select-none", className)}>
       {items.map((item, idx) => {
         const isActive = activeStage === idx;
 
@@ -45,18 +45,18 @@ export function AnimatedSlogan({
           <div
             key={item.text}
             className={cn(
-              "group relative flex flex-col md:flex-row md:items-baseline gap-2 md:gap-6 transition-all duration-700",
+              "group relative flex flex-col md:flex-row md:items-baseline gap-1.5 md:gap-4 transition-all duration-700",
               isActive ? "translate-x-1 sm:translate-x-2" : "opacity-85 hover:opacity-100",
             )}
           >
-            {/* The Main Headline Word with guaranteed line height to eliminate overlaps */}
-            <div className="flex items-center gap-3 sm:gap-5">
+            {/* The Main Headline Word with comfortable, balanced typography */}
+            <div className="flex items-center gap-2.5 sm:gap-4">
               {/* Active Stage Indicator Lamp */}
               <span
                 className={cn(
-                  "block h-3 w-3 sm:h-4 sm:w-4 rounded-full transition-all duration-500",
+                  "block h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full transition-all duration-500",
                   isActive
-                    ? "bg-accent shadow-[0_0_16px_var(--gel-glow)] scale-110"
+                    ? "bg-accent shadow-[0_0_12px_var(--gel-glow)] scale-110"
                     : "bg-hairline-strong opacity-40 group-hover:opacity-75",
                 )}
                 aria-hidden
@@ -64,11 +64,11 @@ export function AnimatedSlogan({
 
               <h2
                 className={cn(
-                  "font-display text-[clamp(3.2rem,11vw,7.8rem)] leading-[1.04] tracking-[-0.01em] transition-all duration-500",
+                  "font-display text-[clamp(1.8rem,4.6vw,3.4rem)] leading-[1.06] tracking-[-0.01em] transition-all duration-500",
                   item.highlight
-                    ? "text-accent drop-shadow-[0_0_24px_var(--gel-glow)]"
+                    ? "text-accent drop-shadow-[0_0_20px_var(--gel-glow)]"
                     : isActive
-                      ? "text-ink drop-shadow-[0_2px_12px_rgba(255,255,255,0.12)]"
+                      ? "text-ink drop-shadow-[0_2px_10px_rgba(255,255,255,0.12)]"
                       : "text-ink/90 group-hover:text-ink",
                 )}
                 style={{
@@ -86,7 +86,7 @@ export function AnimatedSlogan({
               <span className="h-px w-6 bg-secondary/50 hidden md:inline-block" aria-hidden />
               <p
                 className={cn(
-                  "tech text-[12px] sm:text-[14px] uppercase tracking-[0.18em] transition-colors duration-500",
+                  "tech text-[11px] sm:text-[12px] uppercase tracking-[0.16em] transition-colors duration-500",
                   isActive ? "text-secondary font-medium" : "text-ink-dim",
                 )}
               >
