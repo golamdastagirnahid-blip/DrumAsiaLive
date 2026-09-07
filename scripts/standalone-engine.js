@@ -321,29 +321,134 @@
 
   // === 4. STUDIO THEME SELECTOR ENGINE ===
   var THEMES = [
-    { id: 'drum-stage', label: 'Drum Studio', icon: '🥁', swatch: '#E5A93C', desc: 'Drums & Brass Gold' },
-    { id: 'guitar-lounge', label: 'Guitar Lounge', icon: '🎸', swatch: '#FF7A1A', desc: 'Vintage Tube Amber' },
-    { id: 'synth-keys', label: 'Synth & Keys', icon: '🎹', swatch: '#00E5FF', desc: 'Electric Cyan & Piano' },
-    { id: 'console', label: 'Console Master', icon: '🎛️', swatch: '#FFA31A', desc: 'Analog Console Warmth' },
-    { id: 'pure-dark', label: 'Obsidian Dark', icon: '🖤', swatch: '#444444', desc: 'Pure Minimal Black' },
-    { id: 'house-lights', label: 'House Lights', icon: '☀️', swatch: '#FBBF24', desc: 'Crisp Studio Daylight' }
+    { id: 'drum-stage', label: 'Drum Studio', icon: '🥁', swatch: '#E5A93C', desc: 'Drums & Cymbals · Brass Gold' },
+    { id: 'guitar-lounge', label: 'Guitar Lounge', icon: '🎸', swatch: '#FF5E1A', desc: 'Guitars & Amps · Tube Amber' },
+    { id: 'synth-keys', label: 'Synth & Keys', icon: '🎹', swatch: '#00E5FF', desc: 'Synthesizer & Keys · Electric Cyan' },
+    { id: 'console', label: 'Console Master', icon: '🎛️', swatch: '#FFB800', desc: 'Mixing Desk & VU · SSL Gold' },
+    { id: 'sky-session', label: 'Midnight Sky', icon: '🌌', swatch: '#38BDF8', desc: 'Sky & Starlight · Starlight Blue' },
+    { id: 'pure-dark', label: 'Obsidian Dark', icon: '🖤', swatch: '#EF4444', desc: 'Stealth Black · Studio REC Red' },
+    { id: 'stage-lights', label: 'Stage Lights', icon: '✨', swatch: '#FACC15', desc: 'Concert Truss · Spotlights & Magenta' }
   ];
+
+  var THEME_VARS = {
+    'drum-stage': {
+      '--gel-base': '#08090C',
+      '--gel-panel': '#121418',
+      '--gel-panel-2': '#191C22',
+      '--gel-accent': '#E5A93C',
+      '--gel-secondary': '#A3782C',
+      '--gel-glow': 'rgba(229, 169, 60, 0.45)'
+    },
+    'guitar-lounge': {
+      '--gel-base': '#0F0B08',
+      '--gel-panel': '#1A130D',
+      '--gel-panel-2': '#241A12',
+      '--gel-accent': '#FF5E1A',
+      '--gel-secondary': '#D45D28',
+      '--gel-glow': 'rgba(255, 94, 26, 0.5)'
+    },
+    'synth-keys': {
+      '--gel-base': '#05080E',
+      '--gel-panel': '#0C121D',
+      '--gel-panel-2': '#121A28',
+      '--gel-accent': '#00E5FF',
+      '--gel-secondary': '#BD00FF',
+      '--gel-glow': 'rgba(0, 229, 255, 0.5)'
+    },
+    'console': {
+      '--gel-base': '#0B0C0E',
+      '--gel-panel': '#15171B',
+      '--gel-panel-2': '#1B1E23',
+      '--gel-accent': '#FFB800',
+      '--gel-secondary': '#22C55E',
+      '--gel-glow': 'rgba(255, 184, 0, 0.45)'
+    },
+    'sky-session': {
+      '--gel-base': '#030814',
+      '--gel-panel': '#091224',
+      '--gel-panel-2': '#0F1C34',
+      '--gel-accent': '#38BDF8',
+      '--gel-secondary': '#818CF8',
+      '--gel-glow': 'rgba(56, 189, 248, 0.5)'
+    },
+    'pure-dark': {
+      '--gel-base': '#030304',
+      '--gel-panel': '#0B0C0E',
+      '--gel-panel-2': '#14161A',
+      '--gel-accent': '#EF4444',
+      '--gel-secondary': '#71717A',
+      '--gel-glow': 'rgba(239, 68, 68, 0.45)'
+    },
+    'stage-lights': {
+      '--gel-base': '#090412',
+      '--gel-panel': '#150A26',
+      '--gel-panel-2': '#1F0F38',
+      '--gel-accent': '#FACC15',
+      '--gel-secondary': '#EC4899',
+      '--gel-glow': 'rgba(236, 72, 153, 0.5)'
+    }
+  };
 
   function applyTheme(id) {
     document.documentElement.setAttribute('data-gel', id);
     try { localStorage.setItem('da-gel', id); } catch(e) {}
-    // Update trigger UI in header
+
+    // 1. Direct CSS variable injection on root for instantaneous visual updates
+    var vars = THEME_VARS[id] || THEME_VARS['drum-stage'];
+    for (var prop in vars) {
+      document.documentElement.style.setProperty(prop, vars[prop]);
+    }
+
+    // 2. Direct Background SVGs switching
+    var bgMap = {
+      'drum-stage': '.da-bg-drum-stage',
+      'guitar-lounge': '.da-bg-guitar-lounge',
+      'synth-keys': '.da-bg-synth-keys',
+      'console': '.da-bg-console',
+      'sky-session': '.da-bg-sky-session',
+      'pure-dark': '.da-bg-pure-dark',
+      'stage-lights': '.da-bg-stage-lights'
+    };
+    for (var key in bgMap) {
+      var bgEl = document.querySelector(bgMap[key]);
+      if (bgEl) {
+        if (key === id || (key === 'guitar-lounge' && id === 'amber-wash') || (key === 'synth-keys' && id === 'cool-wash')) {
+          bgEl.style.opacity = '1';
+          bgEl.style.display = 'block';
+        } else {
+          bgEl.style.opacity = '0';
+        }
+      }
+    }
+
+    // 3. Update trigger UI in header
     var found = THEMES.find(function(t) { return t.id === id; }) || THEMES[0];
-    var themeLabels = document.querySelectorAll('[title*="Theme"], [aria-label*="theme"]');
+    var themeLabels = document.querySelectorAll('[title*="Theme"], [aria-label*="theme"], [aria-label*="Active theme"]');
     themeLabels.forEach(function(el) {
-      var spanText = el.querySelector('span:last-child');
+      var spanText = el.querySelector('span.tech, span:last-child');
       if (spanText && spanText.textContent && !spanText.textContent.includes('0')) {
         spanText.textContent = found.label;
       }
-      var dot = el.querySelector('span:first-child');
+      var dot = el.querySelector('span.rounded-full, span:first-child');
       if (dot) {
         dot.style.background = found.swatch;
-        dot.style.boxShadow = '0 0 8px ' + found.swatch;
+        dot.style.boxShadow = '0 0 10px ' + found.swatch;
+      }
+    });
+
+    // 4. Update active checkmark in the theme list
+    var allItems = document.querySelectorAll('#da-theme-list [data-theme-id]');
+    allItems.forEach(function(it) {
+      var itId = it.getAttribute('data-theme-id');
+      var check = it.querySelector('.da-check');
+      if (itId === id) {
+        it.style.borderColor = found.swatch;
+        it.style.background = 'rgba(255,255,255,0.08)';
+        if (check) check.style.display = 'inline-block';
+      } else {
+        it.style.borderColor = 'rgba(255,255,255,0.08)';
+        it.style.background = 'rgba(255,255,255,0.04)';
+        if (check) check.style.display = 'none';
       }
     });
   }
@@ -463,16 +568,25 @@
 
   // === 6. THEME PICKER MODAL UI ===
   function setupThemeModal() {
+    var existing = document.getElementById('da-theme-modal');
+    if (existing) existing.remove();
+
     var themeModal = document.createElement('div');
     themeModal.id = 'da-theme-modal';
-    themeModal.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);display:none;place-items:center;padding:16px;';
+    themeModal.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,0.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);place-items:center;padding:16px;box-sizing:border-box;';
+
+    var currentGel = document.documentElement.getAttribute('data-gel') || 'drum-stage';
 
     var modalInner = [
-      '<div style="background:#111317;border:1px solid #333;border-radius:12px;max-width:440px;width:100%;padding:24px;box-shadow:0 24px 60px rgba(0,0,0,0.9);font-family:Inter,sans-serif;">',
-        '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #222;padding-bottom:12px;margin-bottom:16px;">',
-          '<div style="font-family:Anton,sans-serif;font-size:18px;text-transform:uppercase;color:#fff;letter-spacing:0.04em;">SELECT STUDIO THEME</div>',
-          '<button id="da-theme-close" style="background:none;border:none;color:#888;font-size:20px;cursor:pointer;">✕</button>',
+      '<div style="background:#111317;border:1px solid rgba(255,255,255,0.15);border-radius:14px;max-width:420px;width:100%;max-height:85vh;overflow-y:auto;padding:20px;box-shadow:0 24px 60px rgba(0,0,0,0.95);font-family:Inter,sans-serif;box-sizing:border-box;">',
+        '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px;margin-bottom:14px;">',
+          '<div style="display:flex;align-items:center;gap:8px;">',
+            '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#37D18A;box-shadow:0 0 8px #37D18A;"></span>',
+            '<span style="font-family:Anton,sans-serif;font-size:18px;text-transform:uppercase;color:#fff;letter-spacing:0.04em;">STUDIO THEMES</span>',
+          '</div>',
+          '<button id="da-theme-close" style="background:none;border:none;color:#aaa;font-size:20px;cursor:pointer;padding:4px 8px;line-height:1;">✕</button>',
         '</div>',
+        '<div style="color:#888;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px;font-family:JetBrains Mono,monospace;">7 PREMIER INSTRUMENT PRESETS</div>',
         '<div style="display:flex;flex-direction:column;gap:8px;" id="da-theme-list"></div>',
       '</div>'
     ].join('');
@@ -481,36 +595,76 @@
 
     var listEl = document.getElementById('da-theme-list');
     THEMES.forEach(function(t) {
+      var isCurrent = (t.id === currentGel);
       var item = document.createElement('div');
-      item.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);cursor:pointer;transition:all 0.2s;';
+      item.setAttribute('data-theme-id', t.id);
+      item.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-radius:8px;background:' + (isCurrent ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.04)') + ';border:1px solid ' + (isCurrent ? t.swatch : 'rgba(255,255,255,0.08)') + ';cursor:pointer;transition:all 0.15s;user-select:none;';
       item.innerHTML = '<div style="display:flex;align-items:center;gap:12px;">' +
-        '<span style="font-size:18px;">' + t.icon + '</span>' +
-        '<div><div style="color:#fff;font-weight:600;font-size:14px;">' + t.label + '</div><div style="color:#888;font-size:11px;">' + t.desc + '</div></div>' +
+        '<span style="font-size:20px;line-height:1;">' + t.icon + '</span>' +
+        '<div>' +
+          '<div style="color:#fff;font-weight:600;font-size:14px;letter-spacing:0.02em;">' + t.label + '</div>' +
+          '<div style="color:#888;font-size:11px;margin-top:2px;">' + t.desc + '</div>' +
+        '</div>' +
       '</div>' +
-      '<span style="width:14px;height:14px;border-radius:50%;background:' + t.swatch + ';box-shadow:0 0 8px ' + t.swatch + ';"></span>';
+      '<div style="display:flex;align-items:center;gap:10px;">' +
+        '<span class="da-check" style="display:' + (isCurrent ? 'inline-block' : 'none') + ';color:' + t.swatch + ';font-weight:bold;font-size:15px;">✓</span>' +
+        '<span style="width:14px;height:14px;border-radius:50%;background:' + t.swatch + ';box-shadow:0 0 10px ' + t.swatch + ';display:inline-block;"></span>' +
+      '</div>';
 
-      item.onmouseover = function() { item.style.borderColor = t.swatch; item.style.background = 'rgba(255,255,255,0.08)'; };
-      item.onmouseout = function() { item.style.borderColor = 'rgba(255,255,255,0.08)'; item.style.background = 'rgba(255,255,255,0.04)'; };
-      item.onclick = function() {
+      item.onmouseover = function() { item.style.borderColor = t.swatch; };
+      item.onmouseout = function() {
+        var active = document.documentElement.getAttribute('data-gel') || 'drum-stage';
+        if (t.id !== active) item.style.borderColor = 'rgba(255,255,255,0.08)';
+      };
+
+      var selectTheme = function(e) {
+        if (e) { e.preventDefault(); e.stopPropagation(); }
         applyTheme(t.id);
         themeModal.style.display = 'none';
       };
+
+      item.onclick = selectTheme;
+      item.ontouchend = selectTheme;
       listEl.appendChild(item);
     });
 
-    document.getElementById('da-theme-close').onclick = function() {
+    document.getElementById('da-theme-close').onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
       themeModal.style.display = 'none';
     };
     themeModal.onclick = function(e) {
-      if (e.target === themeModal) themeModal.style.display = 'none';
+      if (e.target === themeModal) {
+        e.preventDefault();
+        themeModal.style.display = 'none';
+      }
     };
 
-    // Attach to theme buttons in header
+    // Attach to theme buttons in header (using safe attribute inspection without fragile :has())
     document.addEventListener('click', function(e) {
-      var btn = e.target.closest('[title*="Theme"], [aria-label*="theme"], button:has(.lamp)');
-      if (btn && !btn.title.includes('mute') && !btn.getAttribute('aria-label')?.includes('mute')) {
+      var btn = e.target.closest('button');
+      if (!btn) return;
+      var aria = (btn.getAttribute('aria-label') || '').toLowerCase();
+      var title = (btn.getAttribute('title') || '').toLowerCase();
+      if ((aria.includes('theme') || title.includes('theme') || aria.includes('active theme')) && !aria.includes('mute') && !title.includes('mute')) {
         e.preventDefault();
         e.stopPropagation();
+        var cur = document.documentElement.getAttribute('data-gel') || 'drum-stage';
+        var allItems = document.querySelectorAll('#da-theme-list [data-theme-id]');
+        allItems.forEach(function(it) {
+          var itId = it.getAttribute('data-theme-id');
+          var check = it.querySelector('.da-check');
+          var th = THEMES.find(function(x) { return x.id === itId; });
+          if (itId === cur) {
+            it.style.borderColor = th ? th.swatch : '#FFA31A';
+            it.style.background = 'rgba(255,255,255,0.08)';
+            if (check) check.style.display = 'inline-block';
+          } else {
+            it.style.borderColor = 'rgba(255,255,255,0.08)';
+            it.style.background = 'rgba(255,255,255,0.04)';
+            if (check) check.style.display = 'none';
+          }
+        });
         themeModal.style.display = 'grid';
       }
     });

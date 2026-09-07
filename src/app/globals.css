@@ -59,8 +59,8 @@
   --gel-base: #0b0c0e;
   --gel-panel: #15171b;
   --gel-panel-2: #1b1e23;
-  --gel-accent: #ffa31a;
-  --gel-secondary: #b9975b;
+  --gel-accent: #ffb800;
+  --gel-secondary: #22c55e;
   --gel-text-hi: #f2f1ec;
   --gel-text-mid: #9c9c98;
   --gel-text-dim: #83827b;
@@ -69,7 +69,7 @@
   --gel-inner-highlight: rgba(255, 255, 255, 0.06);
   --gel-metal-a: #191b1f;
   --gel-metal-b: #0d0e11;
-  --gel-glow: rgba(255, 163, 26, 0.35);
+  --gel-glow: rgba(255, 184, 0, 0.45);
   --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23ffffff'/%3E%3C/svg%3E");
   --gel-perf-opacity: 0.02;
 }
@@ -90,7 +90,7 @@
   --gel-inner-highlight: rgba(229, 169, 60, 0.08);
   --gel-metal-a: #1a1d24;
   --gel-metal-b: #0a0b0e;
-  --gel-glow: rgba(229, 169, 60, 0.42);
+  --gel-glow: rgba(229, 169, 60, 0.45);
   --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23e5a93c'/%3E%3C/svg%3E");
   --gel-perf-opacity: 0.03;
 }
@@ -102,18 +102,18 @@
   --gel-base: #0f0b08;
   --gel-panel: #1a130d;
   --gel-panel-2: #241a12;
-  --gel-accent: #ff7a1a;
+  --gel-accent: #ff5e1a;
   --gel-secondary: #d45d28;
   --gel-text-hi: #fbf3e8;
   --gel-text-mid: #b29f8b;
   --gel-text-dim: #857361;
-  --gel-hairline: rgba(255, 122, 26, 0.1);
-  --gel-hairline-strong: rgba(255, 122, 26, 0.2);
+  --gel-hairline: rgba(255, 94, 26, 0.12);
+  --gel-hairline-strong: rgba(255, 94, 26, 0.25);
   --gel-inner-highlight: rgba(255, 255, 255, 0.06);
   --gel-metal-a: #241a12;
   --gel-metal-b: #120c06;
-  --gel-glow: rgba(255, 122, 26, 0.4);
-  --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23ff7a1a'/%3E%3C/svg%3E");
+  --gel-glow: rgba(255, 94, 26, 0.5);
+  --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23ff5e1a'/%3E%3C/svg%3E");
   --gel-perf-opacity: 0.025;
 }
 
@@ -125,7 +125,7 @@
   --gel-panel: #0c121d;
   --gel-panel-2: #121a28;
   --gel-accent: #00e5ff;
-  --gel-secondary: #a855f7;
+  --gel-secondary: #bd00ff;
   --gel-text-hi: #eaf6ff;
   --gel-text-mid: #8ba4b8;
   --gel-text-dim: #657e94;
@@ -134,7 +134,7 @@
   --gel-inner-highlight: rgba(0, 229, 255, 0.08);
   --gel-metal-a: #121a28;
   --gel-metal-b: #060a10;
-  --gel-glow: rgba(0, 229, 255, 0.45);
+  --gel-glow: rgba(0, 229, 255, 0.5);
   --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%2300e5ff'/%3E%3C/svg%3E");
   --gel-perf-opacity: 0.03;
 }
@@ -155,7 +155,7 @@
   --gel-inner-highlight: rgba(56, 189, 248, 0.08);
   --gel-metal-a: #0f1c34;
   --gel-metal-b: #040916;
-  --gel-glow: rgba(56, 189, 248, 0.45);
+  --gel-glow: rgba(56, 189, 248, 0.5);
   --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%2338bdf8'/%3E%3C/svg%3E");
   --gel-perf-opacity: 0.03;
 }
@@ -166,18 +166,18 @@
   --gel-base: #030304;
   --gel-panel: #0b0c0e;
   --gel-panel-2: #14161a;
-  --gel-accent: #f59e0b;
+  --gel-accent: #ef4444;
   --gel-secondary: #71717a;
   --gel-text-hi: #f4f4f5;
   --gel-text-mid: #a1a1aa;
   --gel-text-dim: #71717a;
-  --gel-hairline: rgba(245, 158, 11, 0.1);
-  --gel-hairline-strong: rgba(245, 158, 11, 0.2);
+  --gel-hairline: rgba(239, 68, 68, 0.15);
+  --gel-hairline-strong: rgba(239, 68, 68, 0.3);
   --gel-inner-highlight: rgba(255, 255, 255, 0.05);
   --gel-metal-a: #14161a;
   --gel-metal-b: #050506;
-  --gel-glow: rgba(245, 158, 11, 0.38);
-  --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23f59e0b'/%3E%3C/svg%3E");
+  --gel-glow: rgba(239, 68, 68, 0.45);
+  --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23ef4444'/%3E%3C/svg%3E");
   --gel-perf-opacity: 0.02;
 }
 
@@ -197,7 +197,7 @@
   --gel-inner-highlight: rgba(250, 204, 21, 0.08);
   --gel-metal-a: #1f0f38;
   --gel-metal-b: #080310;
-  --gel-glow: rgba(250, 204, 21, 0.45);
+  --gel-glow: rgba(236, 72, 153, 0.5);
   --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23facc15'/%3E%3C/svg%3E");
   --gel-perf-opacity: 0.03;
 }
@@ -221,6 +221,46 @@
   --gel-glow: rgba(194, 65, 12, 0.3);
   --gel-perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%2314161a'/%3E%3C/svg%3E");
   --gel-perf-opacity: 0.03;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STUDIO INSTRUMENT THEME BACKGROUND SWITCHING RULES
+   ═══════════════════════════════════════════════════════════════════════════ */
+.da-theme-bg {
+  opacity: 0 !important;
+  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  pointer-events: none !important;
+}
+
+html[data-gel="drum-stage"] .da-bg-drum-stage,
+html:not([data-gel]) .da-bg-drum-stage {
+  opacity: 1 !important;
+}
+
+html[data-gel="guitar-lounge"] .da-bg-guitar-lounge,
+html[data-gel="amber-wash"] .da-bg-guitar-lounge {
+  opacity: 1 !important;
+}
+
+html[data-gel="synth-keys"] .da-bg-synth-keys,
+html[data-gel="cool-wash"] .da-bg-synth-keys {
+  opacity: 1 !important;
+}
+
+html[data-gel="console"] .da-bg-console {
+  opacity: 1 !important;
+}
+
+html[data-gel="sky-session"] .da-bg-sky-session {
+  opacity: 1 !important;
+}
+
+html[data-gel="pure-dark"] .da-bg-pure-dark {
+  opacity: 1 !important;
+}
+
+html[data-gel="stage-lights"] .da-bg-stage-lights {
+  opacity: 1 !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

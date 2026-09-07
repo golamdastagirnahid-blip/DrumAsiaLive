@@ -30,7 +30,7 @@ export function InstrumentThemeBackground({ className }: { className?: string })
       {/* ══════════════ 1. DRUM STUDIO (Drums & Cymbals) ══════════════ */}
       <div
         className={cn(
-          "absolute inset-0 transition-opacity duration-700",
+          "da-theme-bg da-bg-drum-stage absolute inset-0 transition-opacity duration-700",
           gel === "drum-stage" ? "opacity-100" : "opacity-0",
         )}
       >
@@ -81,7 +81,7 @@ export function InstrumentThemeBackground({ className }: { className?: string })
       {/* ══════════════ 2. GUITAR LOUNGE (Guitars & Amps) ══════════════ */}
       <div
         className={cn(
-          "absolute inset-0 transition-opacity duration-700",
+          "da-theme-bg da-bg-guitar-lounge absolute inset-0 transition-opacity duration-700",
           gel === "guitar-lounge" || gel === "amber-wash" ? "opacity-100" : "opacity-0",
         )}
       >
@@ -143,7 +143,7 @@ export function InstrumentThemeBackground({ className }: { className?: string })
       {/* ══════════════ 3. SYNTH & KEYS (Synthesizers & Piano) ══════════════ */}
       <div
         className={cn(
-          "absolute inset-0 transition-opacity duration-700",
+          "da-theme-bg da-bg-synth-keys absolute inset-0 transition-opacity duration-700",
           gel === "synth-keys" || gel === "cool-wash" ? "opacity-100" : "opacity-0",
         )}
       >
@@ -213,7 +213,7 @@ export function InstrumentThemeBackground({ className }: { className?: string })
       {/* ══════════════ 4. CONSOLE MASTER (Mixing Desk & VU) ══════════════ */}
       <div
         className={cn(
-          "absolute inset-0 transition-opacity duration-700",
+          "da-theme-bg da-bg-console absolute inset-0 transition-opacity duration-700",
           gel === "console" ? "opacity-100" : "opacity-0",
         )}
       >
@@ -285,7 +285,7 @@ export function InstrumentThemeBackground({ className }: { className?: string })
       {/* ══════════════ 5. MIDNIGHT SKY (Sky & Starlight) ══════════════ */}
       <div
         className={cn(
-          "absolute inset-0 transition-opacity duration-700",
+          "da-theme-bg da-bg-sky-session absolute inset-0 transition-opacity duration-700",
           gel === "sky-session" ? "opacity-100" : "opacity-0",
         )}
       >
@@ -347,7 +347,7 @@ export function InstrumentThemeBackground({ className }: { className?: string })
       {/* ══════════════ 6. OBSIDIAN DARK (Stealth Black & Ember) ══════════════ */}
       <div
         className={cn(
-          "absolute inset-0 transition-opacity duration-700",
+          "da-theme-bg da-bg-pure-dark absolute inset-0 transition-opacity duration-700",
           gel === "pure-dark" ? "opacity-100" : "opacity-0",
         )}
       >
@@ -394,7 +394,7 @@ export function InstrumentThemeBackground({ className }: { className?: string })
       {/* ══════════════ 7. STAGE LIGHTS (Spotlight Beams & Truss) ══════════════ */}
       <div
         className={cn(
-          "absolute inset-0 transition-opacity duration-700",
+          "da-theme-bg da-bg-stage-lights absolute inset-0 transition-opacity duration-700",
           gel === "stage-lights" ? "opacity-100" : "opacity-0",
         )}
       >
