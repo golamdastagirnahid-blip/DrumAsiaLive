@@ -359,8 +359,8 @@ if (fs.existsSync(OUT_DIR)) {
     fs.copyFileSync(path.join(OUT_DIR, 'ms', 'index.html'), path.join(OUT_DIR, 'ms.html'));
   }
 
-  // Copy public assets to out root
-  ['logo.jpg', 'portrait.jpg', 'robots.txt', 'sitemap.xml', '.htaccess'].forEach(file => {
+  // Copy public assets to out root (NO .htaccess - causes 500 on IONOS)
+  ['logo.jpg', 'portrait.jpg', 'robots.txt', 'sitemap.xml'].forEach(file => {
     const src = path.resolve(__dirname, '..', 'public', file);
     const dest = path.join(OUT_DIR, file);
     if (fs.existsSync(src)) {
