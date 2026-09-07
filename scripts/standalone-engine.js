@@ -1,16 +1,41 @@
 /**
  * Standalone Engine for DrumAsia Live
  * Fully independent of Next.js client hydration:
- *  - Real-time Kuala Lumpur Timecode clock & Studio Open/Closed status
+ *  - Real-time Kuala Lumpur Timecode, Date & Live Weather
+ *  - Interactive Studio Theme Switcher (6 Instrument Themes)
+ *  - Desktop Dropdown Mega-Menus for all pages (Rooms, Backline, Record, Live, More)
+ *  - Mobile Slide-Out Navigation Drawer
  *  - Procedural Web Audio API jamming sound engine
  *  - Top bar transparency on scroll (transparent at top, solid dark glass when scrolled)
  *  - Bottom transport bar motion (shows on scroll down, hides on scroll up)
- *  - Dropdown and mobile navigation to ALL pages
+ *  - Universal subpage routing (.html siblings)
  */
 (function() {
-  // === 1. TIMECODE & STUDIO STATUS ENGINE ===
-  function updateTimecode() {
-    // Current Kuala Lumpur time (UTC+8)
+  // === 1. TIMECODE, LIVE DATE & LIVE WEATHER ENGINE ===
+  var weatherText = '29°C · KL FAIR';
+
+  // Fetch real-time Kuala Lumpur weather from free Open-Meteo API
+  try {
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=3.139&longitude=101.6869&current_weather=true')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data && data.current_weather) {
+          var temp = Math.round(data.current_weather.temperature);
+          var code = data.current_weather.weathercode;
+          var cond = 'FAIR';
+          if (code >= 95) cond = 'THUNDER';
+          else if (code >= 61) cond = 'RAIN';
+          else if (code >= 51) cond = 'DRIZZLE';
+          else if (code >= 1 && code <= 3) cond = 'CLOUDY';
+          else if (code === 0) cond = 'CLEAR';
+          weatherText = temp + '°C · KL ' + cond;
+          updateDisplay();
+        }
+      })
+      .catch(function() { /* fallback remains */ });
+  } catch(e) {}
+
+  function updateDisplay() {
     var now = new Date();
     var utc = now.getTime() + (now.getTimezoneOffset() * 60000);
     var klTime = new Date(utc + (3600000 * 8));
@@ -23,33 +48,56 @@
 
     var timecodeStr = h + ':' + m + ':' + s + ':' + frames;
 
-    // Find and update all timecode elements
-    var timeElements = document.querySelectorAll('.timecode-display, [data-timecode]');
-    timeElements.forEach(function(el) {
-      el.textContent = timecodeStr;
-    });
+    // Date formatting: "TUE 08 SEP 2026"
+    var days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    var months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    var dateStr = days[klTime.getDay()] + ' ' + String(klTime.getDate()).padStart(2, '0') + ' ' + months[klTime.getMonth()] + ' ' + klTime.getFullYear();
 
-    // Also look for transport bar raw text node matching --:--:--:--
+    // Studio status
+    var hour = klTime.getHours();
+    var isOpen = (hour >= 10 || hour < 1);
+    var statusHtml = isOpen
+      ? '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#37d18a;box-shadow:0 0 8px #37d18a;margin-right:6px;"></span>OPEN · CLOSES 1:00 AM'
+      : '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#f59e0b;box-shadow:0 0 8px #f59e0b;margin-right:6px;"></span>CLOSED · OPENS 10:00 AM';
+
+    // Update transport bar left items
+    var transportLeft = document.querySelector('nav[aria-label*="Quick"] .overflow-x-auto, .transport-bar .overflow-x-auto, div.fixed.bottom-0 .overflow-x-auto');
+    if (transportLeft && !transportLeft.hasAttribute('data-da-injected')) {
+      transportLeft.setAttribute('data-da-injected', 'true');
+      transportLeft.innerHTML = [
+        '<div style="display:flex;align-items:center;gap:12px;font-family:JetBrains Mono,monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.16em;color:#aaa;white-space:nowrap;">',
+          '<span style="display:flex;align-items:center;gap:4px;color:#ef4444;font-weight:700;"><span style="width:7px;height:7px;border-radius:50%;background:#ef4444;box-shadow:0 0 8px #ef4444;display:inline-block;animation:pulse 1.5s infinite;"></span>REC</span>',
+          '<span style="color:#fff;font-weight:600;" id="da-tc-span">' + timecodeStr + '</span>',
+          '<span style="color:#666;">|</span>',
+          '<span style="color:#d4d4d4;" id="da-date-span">' + dateStr + '</span>',
+          '<span style="color:#666;">|</span>',
+          '<span style="color:#FFA31A;" id="da-weather-span">' + weatherText + '</span>',
+          '<span style="color:#666;">|</span>',
+          '<span id="da-status-span">' + statusHtml + '</span>',
+        '</div>'
+      ].join('');
+    } else if (transportLeft) {
+      var tcEl = document.getElementById('da-tc-span');
+      if (tcEl) tcEl.textContent = timecodeStr;
+      var dateEl = document.getElementById('da-date-span');
+      if (dateEl) dateEl.textContent = dateStr;
+      var wEl = document.getElementById('da-weather-span');
+      if (wEl) wEl.textContent = weatherText;
+      var stEl = document.getElementById('da-status-span');
+      if (stEl) stEl.innerHTML = statusHtml;
+    }
+
+    // Direct text fallback
     var allTech = document.querySelectorAll('.tech');
     allTech.forEach(function(el) {
       if (el.textContent.includes('--:--:--:--') || /^\d{2}:\d{2}:\d{2}:\d{2}$/.test(el.textContent.trim())) {
         el.textContent = timecodeStr;
       }
-      // Update Studio Status (Open 10am to 1am)
-      if (el.textContent.includes('CLOSED OPENS') || el.textContent.includes('OPEN') || el.textContent.includes('OPENS')) {
-        var hour = klTime.getHours();
-        var isOpen = (hour >= 10 || hour < 1);
-        if (isOpen) {
-          el.innerHTML = '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#37d18a;box-shadow:0 0 8px #37d18a;margin-right:6px;"></span>OPEN · CLOSES 1:00 AM';
-        } else {
-          el.innerHTML = '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#f59e0b;box-shadow:0 0 8px #f59e0b;margin-right:6px;"></span>CLOSED · OPENS 10:00 AM';
-        }
-      }
     });
   }
 
-  setInterval(updateTimecode, 100);
-  updateTimecode();
+  setInterval(updateDisplay, 100);
+  updateDisplay();
 
   // === 2. PROCEDURAL WEB AUDIO API JAMMING ENGINE ===
   var audioCtx = null;
@@ -242,7 +290,6 @@
     var y = window.scrollY;
     var delta = y - lastScrollY;
 
-    // Header transparency
     if (header) {
       if (y <= 20) {
         header.style.background = 'transparent';
@@ -257,7 +304,6 @@
       }
     }
 
-    // Bottom transport bar hide on scroll up, show on scroll down
     if (transport) {
       if (delta > 3) {
         transport.style.transform = 'translateY(0)';
@@ -273,11 +319,210 @@
 
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // === 4. DOM EVENT LISTENERS & NAVIGATION ===
+  // === 4. STUDIO THEME SELECTOR ENGINE ===
+  var THEMES = [
+    { id: 'drum-stage', label: 'Drum Studio', icon: '🥁', swatch: '#E5A93C', desc: 'Drums & Brass Gold' },
+    { id: 'guitar-lounge', label: 'Guitar Lounge', icon: '🎸', swatch: '#FF7A1A', desc: 'Vintage Tube Amber' },
+    { id: 'synth-keys', label: 'Synth & Keys', icon: '🎹', swatch: '#00E5FF', desc: 'Electric Cyan & Piano' },
+    { id: 'console', label: 'Console Master', icon: '🎛️', swatch: '#FFA31A', desc: 'Analog Console Warmth' },
+    { id: 'pure-dark', label: 'Obsidian Dark', icon: '🖤', swatch: '#444444', desc: 'Pure Minimal Black' },
+    { id: 'house-lights', label: 'House Lights', icon: '☀️', swatch: '#FBBF24', desc: 'Crisp Studio Daylight' }
+  ];
+
+  function applyTheme(id) {
+    document.documentElement.setAttribute('data-gel', id);
+    try { localStorage.setItem('da-gel', id); } catch(e) {}
+    // Update trigger UI in header
+    var found = THEMES.find(function(t) { return t.id === id; }) || THEMES[0];
+    var themeLabels = document.querySelectorAll('[title*="Theme"], [aria-label*="theme"]');
+    themeLabels.forEach(function(el) {
+      var spanText = el.querySelector('span:last-child');
+      if (spanText && spanText.textContent && !spanText.textContent.includes('0')) {
+        spanText.textContent = found.label;
+      }
+      var dot = el.querySelector('span:first-child');
+      if (dot) {
+        dot.style.background = found.swatch;
+        dot.style.boxShadow = '0 0 8px ' + found.swatch;
+      }
+    });
+  }
+
+  // Restore saved theme on load
+  try {
+    var savedTheme = localStorage.getItem('da-gel');
+    if (savedTheme) applyTheme(savedTheme);
+  } catch(e) {}
+
+  // === 5. DESKTOP MEGA-DROPDOWNS & NAVIGATION ENHANCEMENT ===
+  function setupDesktopDropdowns() {
+    var navUl = document.querySelector('header nav ul');
+    if (!navUl) return;
+
+    // Dropdown Data Definition
+    var menus = {
+      'rooms': {
+        title: 'STUDIO ROOMS',
+        items: [
+          { name: 'Studio Ori', desc: 'Desa Sri Hartamas — Signature Rehearsal & Live Tracking', href: 'rooms.html' },
+          { name: 'Live Stage', desc: 'Full Performance Hall with Stage Lighting & PA', href: 'rooms.html' },
+          { name: 'Lagenda Room', desc: 'Acoustic-Treated High-Energy Band Rehearsal', href: 'rooms.html' },
+          { name: 'Bilik Kompang', desc: 'Kota Damansara Branch Studio', href: 'rooms.html' },
+          { name: 'View All Rooms & Pricing →', desc: 'Compare room specs, rates and features', href: 'rooms.html', highlight: true }
+        ]
+      },
+      'backline': {
+        title: 'BACKLINE RENTAL',
+        items: [
+          { name: 'Drum Kits & Snare Drums', desc: 'Tama Starclassic, Pearl Masters, DW Collector Series', href: 'backline.html' },
+          { name: 'Guitar & Bass Amplifiers', desc: 'Marshall JCM, Fender Twin Reverb, Ampeg SVT', href: 'backline.html' },
+          { name: 'Keyboards & Stage Pianos', desc: 'Nord Stage, Roland RD, Yamaha Motif', href: 'backline.html' },
+          { name: 'Browse Full Backline Catalog →', desc: 'Day rates, delivery & on-stage support', href: 'backline.html', highlight: true }
+        ]
+      },
+      'record': {
+        title: 'RECORDING & PRODUCTION',
+        items: [
+          { name: 'Multi-Track Studio Recording', desc: 'Live band tracking, vocal recording, mixing & mastering', href: 'record.html' },
+          { name: 'Live Room Session Recording', desc: 'Capture your live show with multi-camera & audio stem', href: 'live-room.html' },
+          { name: 'Recording Rates & Studio Booking →', desc: 'Desa Sri Hartamas studio suite', href: 'record.html', highlight: true }
+        ]
+      },
+      'live': {
+        title: 'LIVE VENUE & STAGE',
+        items: [
+          { name: 'Gig Venue & Show Booking', desc: 'Basement stage with pro sound engineer & lighting technician', href: 'live.html' },
+          { name: 'Stage Specs & Capacity', desc: 'Full load-in specs, crowd capacity and rider', href: 'load-in.html' },
+          { name: 'Book Live Venue →', desc: 'WhatsApp live coordinator for calendar slots', href: 'live.html', highlight: true }
+        ]
+      },
+      'more': {
+        title: 'EXPLORE DRUM ASIA',
+        items: [
+          { name: 'Our Story & Founder', desc: 'Desa Sri Hartamas since 2014 — Meet the founder', href: 'founders.html' },
+          { name: 'Contact, Location & Map', desc: '7-2 Jalan 22a/70a, Desa Sri Hartamas, Kuala Lumpur', href: 'contact.html' },
+          { name: 'Load-In & Gear Logistics', desc: 'Parking, elevator, load-in bay instructions', href: 'load-in.html' },
+          { name: 'FAQ & Studio Rules', desc: 'Cancellations, booking policy and session guidelines', href: 'faq.html' }
+        ]
+      }
+    };
+
+    var topLis = navUl.querySelectorAll('li');
+    topLis.forEach(function(li) {
+      var btn = li.querySelector('button, a');
+      if (!btn) return;
+      var text = btn.textContent.trim().toLowerCase();
+      var menuKey = null;
+      if (text.includes('room')) menuKey = 'rooms';
+      else if (text.includes('backline')) menuKey = 'backline';
+      else if (text.includes('record')) menuKey = 'record';
+      else if (text.includes('live')) menuKey = 'live';
+      else if (text.includes('more') || text.includes('learn') || text.includes('store')) menuKey = 'more';
+
+      // Make top item a direct clickable link
+      if (btn.tagName === 'BUTTON' && menuKey) {
+        btn.onclick = function(e) {
+          if (menuKey === 'rooms') window.location.href = 'rooms.html';
+          else if (menuKey === 'backline') window.location.href = 'backline.html';
+          else if (menuKey === 'record') window.location.href = 'record.html';
+          else if (menuKey === 'live') window.location.href = 'live.html';
+          else if (menuKey === 'more') window.location.href = 'contact.html';
+        };
+      }
+
+      if (menuKey && menus[menuKey] && !li.querySelector('.da-mega-dropdown')) {
+        li.style.position = 'relative';
+        var menuDef = menus[menuKey];
+        var drop = document.createElement('div');
+        drop.className = 'da-mega-dropdown';
+        drop.style.cssText = 'display:none;position:absolute;top:100%;left:0;min-width:320px;background:rgba(14,16,20,0.98);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:12px;box-shadow:0 16px 40px rgba(0,0,0,0.9);backdrop-filter:blur(20px);z-index:9999;';
+
+        var html = '<div style="font-family:JetBrains Mono,monospace;font-size:9.5px;color:#FFA31A;letter-spacing:0.2em;margin-bottom:8px;padding:0 8px;">' + menuDef.title + '</div><div style="display:flex;flex-direction:column;gap:4px;">';
+        menuDef.items.forEach(function(it) {
+          html += '<a href="' + it.href + '" style="display:block;padding:8px;border-radius:6px;text-decoration:none;transition:all 0.2s;background:' + (it.highlight ? 'rgba(255,163,26,0.1)' : 'transparent') + ';border:' + (it.highlight ? '1px solid rgba(255,163,26,0.3)' : '1px solid transparent') + ';" onmouseover="this.style.background=\'rgba(255,255,255,0.06)\'" onmouseout="this.style.background=\'' + (it.highlight ? 'rgba(255,163,26,0.1)' : 'transparent') + '\'">' +
+            '<div style="color:' + (it.highlight ? '#FFA31A' : '#fff') + ';font-size:13px;font-weight:600;font-family:Inter,sans-serif;">' + it.name + '</div>' +
+            '<div style="color:#888;font-size:11px;font-family:Inter,sans-serif;margin-top:2px;">' + it.desc + '</div>' +
+          '</a>';
+        });
+        html += '</div>';
+        drop.innerHTML = html;
+        li.appendChild(drop);
+
+        // Hover handlers
+        var closeTimer = null;
+        li.addEventListener('mouseenter', function() {
+          if (closeTimer) clearTimeout(closeTimer);
+          drop.style.display = 'block';
+        });
+        li.addEventListener('mouseleave', function() {
+          closeTimer = setTimeout(function() { drop.style.display = 'none'; }, 150);
+        });
+      }
+    });
+  }
+
+  // === 6. THEME PICKER MODAL UI ===
+  function setupThemeModal() {
+    var themeModal = document.createElement('div');
+    themeModal.id = 'da-theme-modal';
+    themeModal.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);display:none;place-items:center;padding:16px;';
+
+    var modalInner = [
+      '<div style="background:#111317;border:1px solid #333;border-radius:12px;max-width:440px;width:100%;padding:24px;box-shadow:0 24px 60px rgba(0,0,0,0.9);font-family:Inter,sans-serif;">',
+        '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #222;padding-bottom:12px;margin-bottom:16px;">',
+          '<div style="font-family:Anton,sans-serif;font-size:18px;text-transform:uppercase;color:#fff;letter-spacing:0.04em;">SELECT STUDIO THEME</div>',
+          '<button id="da-theme-close" style="background:none;border:none;color:#888;font-size:20px;cursor:pointer;">✕</button>',
+        '</div>',
+        '<div style="display:flex;flex-direction:column;gap:8px;" id="da-theme-list"></div>',
+      '</div>'
+    ].join('');
+    themeModal.innerHTML = modalInner;
+    document.body.appendChild(themeModal);
+
+    var listEl = document.getElementById('da-theme-list');
+    THEMES.forEach(function(t) {
+      var item = document.createElement('div');
+      item.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);cursor:pointer;transition:all 0.2s;';
+      item.innerHTML = '<div style="display:flex;align-items:center;gap:12px;">' +
+        '<span style="font-size:18px;">' + t.icon + '</span>' +
+        '<div><div style="color:#fff;font-weight:600;font-size:14px;">' + t.label + '</div><div style="color:#888;font-size:11px;">' + t.desc + '</div></div>' +
+      '</div>' +
+      '<span style="width:14px;height:14px;border-radius:50%;background:' + t.swatch + ';box-shadow:0 0 8px ' + t.swatch + ';"></span>';
+
+      item.onmouseover = function() { item.style.borderColor = t.swatch; item.style.background = 'rgba(255,255,255,0.08)'; };
+      item.onmouseout = function() { item.style.borderColor = 'rgba(255,255,255,0.08)'; item.style.background = 'rgba(255,255,255,0.04)'; };
+      item.onclick = function() {
+        applyTheme(t.id);
+        themeModal.style.display = 'none';
+      };
+      listEl.appendChild(item);
+    });
+
+    document.getElementById('da-theme-close').onclick = function() {
+      themeModal.style.display = 'none';
+    };
+    themeModal.onclick = function(e) {
+      if (e.target === themeModal) themeModal.style.display = 'none';
+    };
+
+    // Attach to theme buttons in header
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('[title*="Theme"], [aria-label*="theme"], button:has(.lamp)');
+      if (btn && !btn.title.includes('mute') && !btn.getAttribute('aria-label')?.includes('mute')) {
+        e.preventDefault();
+        e.stopPropagation();
+        themeModal.style.display = 'grid';
+      }
+    });
+  }
+
+  // === 7. INITIALIZE DOM ENHANCEMENTS ===
   document.addEventListener('DOMContentLoaded', function() {
     onScroll();
+    setupDesktopDropdowns();
+    setupThemeModal();
 
-    // Unlock Web Audio on first user gesture
+    // Unlock Web Audio on first gesture
     var unlock = function() {
       getAudioContext();
       window.removeEventListener('click', unlock);
@@ -286,10 +531,10 @@
     window.addEventListener('click', unlock, { once: true });
     window.addEventListener('touchstart', unlock, { once: true });
 
-    // Audio button clicks
+    // Audio Play Buttons
     document.addEventListener('click', function(e) {
       var btn = e.target.closest('button[aria-label*="Jamming"], button[aria-label*="Audio"], button:has(svg polygon)');
-      if (btn && btn.id !== 'da-close-btn') {
+      if (btn && btn.id !== 'da-close-btn' && btn.id !== 'da-theme-close') {
         e.preventDefault();
         toggleAudio();
       }
@@ -304,18 +549,18 @@
 
     // Master mute
     document.addEventListener('click', function(e) {
-      var muteBtn = e.target.closest('button[title*="mute"], button[aria-label*="mute"], button:has(.lamp)');
+      var muteBtn = e.target.closest('button[title*="mute"], button[aria-label*="mute"]');
       if (muteBtn) {
         e.preventDefault();
         setAudioVolume(currentVol > 0 ? 0 : 0.75);
       }
     });
 
-    // === 5. SLIDE-OUT MOBILE MENU DRAWER ===
+    // Mobile Navigation Drawer
     var mobileDrawer = document.createElement('div');
     mobileDrawer.id = 'da-mobile-drawer';
     mobileDrawer.style.cssText = 'display:none;position:fixed;inset:0;z-index:999999;background:rgba(11,12,14,0.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);overflow-y:auto;padding:24px;';
-    
+
     var drawerContent = [
       '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:16px;margin-bottom:20px;">',
         '<div style="display:flex;align-items:center;gap:10px;">',
@@ -362,7 +607,7 @@
 
     document.getElementById('da-close-btn').addEventListener('click', closeDrawer);
 
-    // === 6. UNIVERSAL LINK ROUTING ===
+    // Universal Link Routing
     document.addEventListener('click', function(e) {
       var a = e.target.closest('a');
       if (!a) return;
@@ -386,7 +631,6 @@
         return;
       }
 
-      // Convert subpage paths so they always work whether in /en/ or root
       var pageMap = {
         '/rooms': 'rooms.html',
         '/en/rooms': 'rooms.html',
@@ -416,18 +660,6 @@
 
       var cleanHref = href.replace(/\/$/, '');
       if (pageMap[cleanHref]) {
-        // If the anchor exists on this page, scroll to it
-        if (cleanHref.endsWith('rooms') && document.getElementById('rooms')) {
-          e.preventDefault();
-          document.getElementById('rooms').scrollIntoView({ behavior: 'smooth' });
-          return;
-        }
-        if (cleanHref.endsWith('founders') && document.getElementById('founder')) {
-          e.preventDefault();
-          document.getElementById('founder').scrollIntoView({ behavior: 'smooth' });
-          return;
-        }
-        // Otherwise navigate to the dedicated html page
         e.preventDefault();
         window.location.href = pageMap[cleanHref];
       }
