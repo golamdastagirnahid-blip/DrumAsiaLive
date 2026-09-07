@@ -531,6 +531,52 @@
     if (savedTheme) applyTheme(savedTheme);
   } catch(e) {}
 
+  // Forward declaration for mobile drawer closer
+  var closeDrawer = function() {};
+
+  // === CONTINUOUS UNINTERRUPTED MUSIC SPA ROUTING ===
+  function navigateTo(url, push) {
+    if (push !== false && window.history && window.history.pushState) {
+      window.history.pushState({}, '', url);
+    }
+    fetch(url)
+      .then(function(res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.text();
+      })
+      .then(function(html) {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, 'text/html');
+
+        if (doc.title) document.title = doc.title;
+
+        var newMain = doc.querySelector('main#main') || doc.querySelector('main');
+        var curMain = document.querySelector('main#main') || document.querySelector('main');
+        if (newMain && curMain) {
+          curMain.innerHTML = newMain.innerHTML;
+        }
+
+        window.scrollTo({ top: 0, behavior: 'instant' });
+
+        var currentPath = window.location.pathname;
+        var navLinks = document.querySelectorAll('header nav a');
+        navLinks.forEach(function(link) {
+          var lh = link.getAttribute('href');
+          if (lh && currentPath.includes(lh.replace(/\.html$/, ''))) {
+            link.style.color = 'var(--gel-accent)';
+          } else if (lh) {
+            link.style.color = '';
+          }
+        });
+
+        closeDrawer();
+        updateAudioUI(isPlaying);
+      })
+      .catch(function() {
+        window.location.href = url;
+      });
+  }
+
   // === 5. DESKTOP MEGA-DROPDOWNS & NAVIGATION ENHANCEMENT ===
   function setupDesktopDropdowns() {
     var navUl = document.querySelector('header nav ul');
@@ -596,14 +642,15 @@
       else if (text.includes('live')) menuKey = 'live';
       else if (text.includes('more') || text.includes('learn') || text.includes('store')) menuKey = 'more';
 
-      // Make top item a direct clickable link
+      // Make top item a direct clickable link with continuous audio navigation
       if (btn.tagName === 'BUTTON' && menuKey) {
         btn.onclick = function(e) {
-          if (menuKey === 'rooms') window.location.href = 'rooms.html';
-          else if (menuKey === 'backline') window.location.href = 'backline.html';
-          else if (menuKey === 'record') window.location.href = 'record.html';
-          else if (menuKey === 'live') window.location.href = 'live.html';
-          else if (menuKey === 'more') window.location.href = 'contact.html';
+          e.preventDefault();
+          if (menuKey === 'rooms') navigateTo('rooms.html');
+          else if (menuKey === 'backline') navigateTo('backline.html');
+          else if (menuKey === 'record') navigateTo('record.html');
+          else if (menuKey === 'live') navigateTo('live.html');
+          else if (menuKey === 'more') navigateTo('contact.html');
         };
       }
 
@@ -625,7 +672,7 @@
         drop.innerHTML = html;
         li.appendChild(drop);
 
-        // Hover handlers
+        // Hover & touch handlers
         var closeTimer = null;
         li.addEventListener('mouseenter', function() {
           if (closeTimer) clearTimeout(closeTimer);
@@ -634,6 +681,21 @@
         li.addEventListener('mouseleave', function() {
           closeTimer = setTimeout(function() { drop.style.display = 'none'; }, 150);
         });
+
+        // Touch support for mobile devices in desktop mode
+        li.addEventListener('touchstart', function(e) {
+          if (e.target.closest('a')) return;
+          if (drop.style.display !== 'block') {
+            document.querySelectorAll('.da-mega-dropdown').forEach(function(d) { d.style.display = 'none'; });
+            drop.style.display = 'block';
+          }
+        }, { passive: true });
+
+        document.addEventListener('touchstart', function(e) {
+          if (!li.contains(e.target)) {
+            drop.style.display = 'none';
+          }
+        }, { passive: true });
       }
     });
   }
@@ -818,10 +880,10 @@
       document.body.style.overflow = 'hidden';
     }
 
-    function closeDrawer() {
+    closeDrawer = function() {
       mobileDrawer.style.display = 'none';
       document.body.style.overflow = '';
-    }
+    };
 
     document.addEventListener('click', function(e) {
       var btn = e.target.closest('button[aria-label*="menu"], button[aria-label*="Menu"], button:has(svg.lucide-menu)');
@@ -832,49 +894,6 @@
     });
 
     document.getElementById('da-close-btn').addEventListener('click', closeDrawer);
-
-    // === CONTINUOUS UNINTERRUPTED MUSIC SPA ROUTING ===
-    function navigateTo(url, push) {
-      if (push !== false && window.history && window.history.pushState) {
-        window.history.pushState({}, '', url);
-      }
-      fetch(url)
-        .then(function(res) {
-          if (!res.ok) throw new Error('HTTP ' + res.status);
-          return res.text();
-        })
-        .then(function(html) {
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(html, 'text/html');
-
-          if (doc.title) document.title = doc.title;
-
-          var newMain = doc.querySelector('main#main') || doc.querySelector('main');
-          var curMain = document.querySelector('main#main') || document.querySelector('main');
-          if (newMain && curMain) {
-            curMain.innerHTML = newMain.innerHTML;
-          }
-
-          window.scrollTo({ top: 0, behavior: 'instant' });
-
-          var currentPath = window.location.pathname;
-          var navLinks = document.querySelectorAll('header nav a');
-          navLinks.forEach(function(link) {
-            var lh = link.getAttribute('href');
-            if (lh && currentPath.includes(lh.replace(/\.html$/, ''))) {
-              link.style.color = 'var(--gel-accent)';
-            } else if (lh) {
-              link.style.color = '';
-            }
-          });
-
-          closeDrawer();
-          updateAudioUI(isPlaying);
-        })
-        .catch(function() {
-          window.location.href = url;
-        });
-    }
 
     window.addEventListener('popstate', function() {
       navigateTo(window.location.href, false);
