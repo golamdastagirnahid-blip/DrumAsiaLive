@@ -60,31 +60,37 @@
       ? '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#37d18a;box-shadow:0 0 8px #37d18a;margin-right:6px;"></span>OPEN · CLOSES 1:00 AM'
       : '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#f59e0b;box-shadow:0 0 8px #f59e0b;margin-right:6px;"></span>CLOSED · OPENS 10:00 AM';
 
-    // Update transport bar left items
-    var transportLeft = document.querySelector('nav[aria-label*="Quick"] .overflow-x-auto, .transport-bar .overflow-x-auto, div.fixed.bottom-0 .overflow-x-auto');
-    if (transportLeft && !transportLeft.hasAttribute('data-da-injected')) {
-      transportLeft.setAttribute('data-da-injected', 'true');
-      transportLeft.innerHTML = [
-        '<div style="display:flex;align-items:center;gap:12px;font-family:JetBrains Mono,monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.16em;color:#aaa;white-space:nowrap;">',
-          '<span style="display:flex;align-items:center;gap:4px;color:#ef4444;font-weight:700;"><span style="width:7px;height:7px;border-radius:50%;background:#ef4444;box-shadow:0 0 8px #ef4444;display:inline-block;animation:pulse 1.5s infinite;"></span>REC</span>',
-          '<span style="color:#fff;font-weight:600;" id="da-tc-span">' + timecodeStr + '</span>',
-          '<span style="color:#666;">|</span>',
-          '<span style="color:#d4d4d4;" id="da-date-span">' + dateStr + '</span>',
-          '<span style="color:#666;">|</span>',
-          '<span style="color:#FFA31A;" id="da-weather-span">' + weatherText + '</span>',
-          '<span style="color:#666;">|</span>',
-          '<span id="da-status-span">' + statusHtml + '</span>',
-        '</div>'
-      ].join('');
-    } else if (transportLeft) {
-      var tcEl = document.getElementById('da-tc-span');
-      if (tcEl) tcEl.textContent = timecodeStr;
-      var dateEl = document.getElementById('da-date-span');
-      if (dateEl) dateEl.textContent = dateStr;
-      var wEl = document.getElementById('da-weather-span');
-      if (wEl) wEl.textContent = weatherText;
-      var stEl = document.getElementById('da-status-span');
-      if (stEl) stEl.innerHTML = statusHtml;
+    // Update bottom transport bar
+    var transportBar = document.querySelector('.transport');
+    if (transportBar) {
+      // 1. Update weather elements
+      var wEls = transportBar.querySelectorAll('#da-weather-badge span, .da-weather-span, #da-weather-span');
+      wEls.forEach(function(el) {
+        if (!el.classList.contains('transport__label')) el.textContent = weatherText;
+      });
+
+      // 2. Update date elements
+      var dEls = transportBar.querySelectorAll('.da-date-span, #da-date-span, .transport .engraved');
+      dEls.forEach(function(el) {
+        if (!el.textContent.includes('°C')) el.textContent = dateStr;
+      });
+
+      // 3. Update timecode elements
+      var tcEls = transportBar.querySelectorAll('#da-tc-span, .da-tc-span, .transport .tabular-nums');
+      tcEls.forEach(function(el) { el.textContent = timecodeStr; });
+
+      // 4. Ensure enriched strip in transport flex-1 if needed
+      var transportLeft = transportBar.querySelector('.flex-1');
+      if (transportLeft && !transportLeft.hasAttribute('data-da-injected')) {
+        transportLeft.setAttribute('data-da-injected', 'true');
+        if (!transportLeft.textContent.includes('°C') && !transportLeft.querySelector('#da-weather-span')) {
+          var wBadge = document.createElement('div');
+          wBadge.id = 'da-weather-badge';
+          wBadge.style.cssText = 'display:flex;align-items:center;gap:6px;margin-left:8px;';
+          wBadge.innerHTML = '<span class="transport__label hidden lg:inline" style="color:#888;font-size:9px;text-transform:uppercase;letter-spacing:0.18em;font-family:JetBrains Mono,monospace;">WEATHER</span><span id="da-weather-span" style="color:var(--gel-accent);font-weight:600;font-size:11px;font-family:JetBrains Mono,monospace;white-space:nowrap;">' + weatherText + '</span>';
+          transportLeft.appendChild(wBadge);
+        }
+      }
     }
 
     // Direct text fallback
@@ -216,6 +222,69 @@
         cOsc.stop(now + 0.9);
       });
     }
+    // Live Audio Visualizer / Dancing Heartbeat
+    updateVisualizer(step, true);
+  }
+
+  // === DANCING HEARTBEAT & 5-BAND EQUALIZER VISUALIZER ENGINE ===
+  function updateVisualizer(curStep, active) {
+    var rings = document.querySelectorAll('.da-pulse-ring');
+    var dots = document.querySelectorAll('.da-pulse-dot');
+    var eq1 = document.querySelectorAll('.da-eq-1');
+    var eq2 = document.querySelectorAll('.da-eq-2');
+    var eq3 = document.querySelectorAll('.da-eq-3');
+    var eq4 = document.querySelectorAll('.da-eq-4');
+    var eq5 = document.querySelectorAll('.da-eq-5');
+
+    if (!active) {
+      rings.forEach(function(r) { r.style.transform = 'scale(1)'; r.style.opacity = '0.2'; });
+      dots.forEach(function(d) { d.style.transform = 'scale(1)'; d.style.boxShadow = '0 0 4px var(--gel-accent)'; });
+      eq1.forEach(function(b) { b.style.height = '3px'; });
+      eq2.forEach(function(b) { b.style.height = '3px'; });
+      eq3.forEach(function(b) { b.style.height = '4px'; });
+      eq4.forEach(function(b) { b.style.height = '3px'; });
+      eq5.forEach(function(b) { b.style.height = '3px'; });
+      return;
+    }
+
+    // Heavy Bass Kick on step 0, 8 -> Big Heartbeat Thump!
+    if (curStep === 0 || curStep === 8) {
+      rings.forEach(function(r) { r.style.transform = 'scale(2.3)'; r.style.opacity = '0.9'; });
+      dots.forEach(function(d) { d.style.transform = 'scale(1.4)'; d.style.boxShadow = '0 0 16px var(--gel-accent)'; });
+      eq1.forEach(function(b) { b.style.height = '14px'; });
+      eq2.forEach(function(b) { b.style.height = '12px'; });
+      eq3.forEach(function(b) { b.style.height = '10px'; });
+      eq4.forEach(function(b) { b.style.height = '6px'; });
+      eq5.forEach(function(b) { b.style.height = '7px'; });
+    } else if (curStep === 4 || curStep === 12) {
+      // Snare snap
+      rings.forEach(function(r) { r.style.transform = 'scale(1.7)'; r.style.opacity = '0.7'; });
+      dots.forEach(function(d) { d.style.transform = 'scale(1.2)'; d.style.boxShadow = '0 0 12px var(--gel-accent)'; });
+      eq1.forEach(function(b) { b.style.height = '5px'; });
+      eq2.forEach(function(b) { b.style.height = '7px'; });
+      eq3.forEach(function(b) { b.style.height = '12px'; });
+      eq4.forEach(function(b) { b.style.height = '14px'; });
+      eq5.forEach(function(b) { b.style.height = '8px'; });
+    } else if (curStep === 10) {
+      // Syncopated kick pulse
+      rings.forEach(function(r) { r.style.transform = 'scale(1.6)'; r.style.opacity = '0.65'; });
+      dots.forEach(function(d) { d.style.transform = 'scale(1.25)'; });
+      eq1.forEach(function(b) { b.style.height = '11px'; });
+      eq2.forEach(function(b) { b.style.height = '10px'; });
+      eq3.forEach(function(b) { b.style.height = '6px'; });
+      eq4.forEach(function(b) { b.style.height = '4px'; });
+      eq5.forEach(function(b) { b.style.height = '5px'; });
+    } else {
+      // Hi-hat and decay
+      var isEven = (curStep % 2 === 0);
+      rings.forEach(function(r) { r.style.transform = 'scale(1.15)'; r.style.opacity = '0.35'; });
+      dots.forEach(function(d) { d.style.transform = 'scale(1)'; d.style.boxShadow = '0 0 6px var(--gel-accent)'; });
+      eq1.forEach(function(b) { b.style.height = '4px'; });
+      eq2.forEach(function(b) { b.style.height = '5px'; });
+      eq3.forEach(function(b) { b.style.height = '6px'; });
+      eq4.forEach(function(b) { b.style.height = isEven ? '9px' : '4px'; });
+      eq5.forEach(function(b) { b.style.height = isEven ? '11px' : '3px'; });
+    }
   }
 
   function startAudio() {
@@ -223,6 +292,7 @@
     if (!ctx) return;
     if (intervalId) clearInterval(intervalId);
     isPlaying = true;
+    try { localStorage.setItem('da-music-playing', 'true'); } catch(e) {}
     updateAudioUI(true);
     var stepMs = (60 / 96) / 4 * 1000;
     intervalId = setInterval(function() {
@@ -237,7 +307,9 @@
       intervalId = null;
     }
     isPlaying = false;
+    try { localStorage.setItem('da-music-playing', 'false'); } catch(e) {}
     updateAudioUI(false);
+    updateVisualizer(0, false);
   }
 
   function toggleAudio() {
@@ -685,9 +757,9 @@
     window.addEventListener('click', unlock, { once: true });
     window.addEventListener('touchstart', unlock, { once: true });
 
-    // Audio Play Buttons
+    // Audio Play Buttons & Dancing Visualizer Trigger
     document.addEventListener('click', function(e) {
-      var btn = e.target.closest('button[aria-label*="Jamming"], button[aria-label*="Audio"], button:has(svg polygon)');
+      var btn = e.target.closest('button[aria-label*="Jamming"], button[aria-label*="Audio"], button:has(svg polygon), .da-beat-visualizer');
       if (btn && btn.id !== 'da-close-btn' && btn.id !== 'da-theme-close') {
         e.preventDefault();
         toggleAudio();
@@ -761,11 +833,78 @@
 
     document.getElementById('da-close-btn').addEventListener('click', closeDrawer);
 
+    // === CONTINUOUS UNINTERRUPTED MUSIC SPA ROUTING ===
+    function navigateTo(url, push) {
+      if (push !== false && window.history && window.history.pushState) {
+        window.history.pushState({}, '', url);
+      }
+      fetch(url)
+        .then(function(res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.text();
+        })
+        .then(function(html) {
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(html, 'text/html');
+
+          if (doc.title) document.title = doc.title;
+
+          var newMain = doc.querySelector('main#main') || doc.querySelector('main');
+          var curMain = document.querySelector('main#main') || document.querySelector('main');
+          if (newMain && curMain) {
+            curMain.innerHTML = newMain.innerHTML;
+          }
+
+          window.scrollTo({ top: 0, behavior: 'instant' });
+
+          var currentPath = window.location.pathname;
+          var navLinks = document.querySelectorAll('header nav a');
+          navLinks.forEach(function(link) {
+            var lh = link.getAttribute('href');
+            if (lh && currentPath.includes(lh.replace(/\.html$/, ''))) {
+              link.style.color = 'var(--gel-accent)';
+            } else if (lh) {
+              link.style.color = '';
+            }
+          });
+
+          closeDrawer();
+          updateAudioUI(isPlaying);
+        })
+        .catch(function() {
+          window.location.href = url;
+        });
+    }
+
+    window.addEventListener('popstate', function() {
+      navigateTo(window.location.href, false);
+    });
+
+    // Auto-resume continuous audio if previously playing
+    try {
+      if (localStorage.getItem('da-music-playing') === 'true') {
+        var autoStartAudio = function() {
+          if (!isPlaying && localStorage.getItem('da-music-playing') === 'true') {
+            startAudio();
+          }
+          window.removeEventListener('click', autoStartAudio);
+          window.removeEventListener('touchstart', autoStartAudio);
+          window.removeEventListener('scroll', autoStartAudio);
+        };
+        window.addEventListener('click', autoStartAudio, { once: true });
+        window.addEventListener('touchstart', autoStartAudio, { once: true });
+        window.addEventListener('scroll', autoStartAudio, { once: true });
+        startAudio();
+      }
+    } catch(e) {}
+
     // Universal Link Routing
     document.addEventListener('click', function(e) {
       var a = e.target.closest('a');
       if (!a) return;
       var href = a.getAttribute('href');
+      if (!href) return;
+
       // Logo and Home link routing — ALWAYS goes back to home page cleanly
       var isLogo = (a.getAttribute('aria-label') || '').includes('home') || 
                    a.querySelector('img[alt*="Logo"]') || 
@@ -782,7 +921,7 @@
         if (currentPath.endsWith('index.html') || currentPath === '/' || currentPath.endsWith('/') || currentPath === '') {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          window.location.href = 'index.html';
+          navigateTo('index.html');
         }
         return;
       }
@@ -834,7 +973,10 @@
       var cleanHref = href.replace(/\/$/, '');
       if (pageMap[cleanHref]) {
         e.preventDefault();
-        window.location.href = pageMap[cleanHref];
+        navigateTo(pageMap[cleanHref]);
+      } else if (href.endsWith('.html') && !href.startsWith('http')) {
+        e.preventDefault();
+        navigateTo(href);
       }
     });
   });
