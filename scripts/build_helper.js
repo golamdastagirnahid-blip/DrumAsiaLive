@@ -54,13 +54,18 @@ function processHtmlFile(filePath) {
   }
 
   // Standard responsive mobile viewport — balanced, readable text & auto-fit
-  const viewportTag = '<meta name="viewport" id="da-viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">';
+  const viewportTag = '<meta name="viewport" id="da-viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover">';
 
   // Replace any existing viewport meta tag
   if (html.includes('<meta name="viewport"')) {
     html = html.replace(/<meta name="viewport"[^>]*>/i, viewportTag);
   } else {
     html = html.replace('<head>', '<head>\n' + viewportTag);
+  }
+
+  // Inject critical mobile-fit CSS to guarantee zero sideways overflow or cropping
+  if (!html.includes('id="da-mobile-fit-css"')) {
+    html = html.replace('</head>', '<style id="da-mobile-fit-css">html,body{max-width:100vw!important;overflow-x:hidden!important;width:100%!important;}*,*::before,*::after{box-sizing:border-box;}img,svg,video{max-width:100%;height:auto;}</style></head>');
   }
 
   // Remove any legacy da-viewport-engine script

@@ -59,7 +59,9 @@ export const viewport: Viewport = {
   themeColor: site.themeColor,
   width: "device-width",
   initialScale: 1,
+  maximumScale: 5,
   viewportFit: "cover",
+  userScalable: true,
 };
 
 export default async function LocaleLayout({
@@ -74,7 +76,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning className="overflow-x-hidden w-full max-w-full">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -83,7 +85,7 @@ export default async function LocaleLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased">
+      <body className="antialiased overflow-x-hidden w-full max-w-full relative">
         <Script id="da-gel-init" strategy="beforeInteractive">
           {`(function(){try{var g=localStorage.getItem('da-gel');if(!g||['console','drum-stage','guitar-lounge','synth-keys','sky-session','pure-dark','stage-lights','amber-wash','cool-wash','house-lights'].indexOf(g)===-1){g='drum-stage';}document.documentElement.setAttribute('data-gel',g);}catch(e){document.documentElement.setAttribute('data-gel','drum-stage');}})();`}
         </Script>
@@ -95,7 +97,7 @@ export default async function LocaleLayout({
                 <SkipLink />
                 <AnnouncementBar />
                 <Header />
-                <main id="main">{children}</main>
+                <main id="main" className="overflow-x-hidden w-full max-w-full">{children}</main>
                 <Footer />
                 <TransportBar />
                 <div className="grain" aria-hidden />

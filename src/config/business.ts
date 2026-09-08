@@ -43,15 +43,15 @@ export interface HolidayOverride {
 }
 
 export interface Branch {
-  id: "hartamas" | "kota-damansara";
+  id: "hartamas";
   /** Sub-brand slug — hartamas is the flagship / "Studio" house. */
   name: string;
   shortName: string;
-  subBrand: "studio" | "live" | "studio";
+  subBrand: "studio" | "live";
   address: string | null;
   /** Waze "search term" the client publishes. */
   wazeTerm: string | null;
-  /** Geo point — Hartamas sourced from Waze structured data; Kota Damansara [CONFIRM]. */
+  /** Geo point — Sri Hartamas sourced from Waze structured data. */
   geo: { lat: number; lng: number } | null;
   /** Main booking phone (display + dial). `+`-prefixed E.164 for wa.me. */
   phones: {
@@ -69,22 +69,8 @@ export interface Branch {
 export type Confidence = "verified" | "confirm";
 
 /* ────────────────────────────────────────────────────────────────────────────
- * HOURS
- * Kota Damansara's cited window is Mon–Fri 6pm–5am — an OVERNIGHT window. The
- * weekly schedule below encodes it with `closeOnNextDay: true`. Weekend hours were
- * not captured → `null` for Sat/Sun (closed/unknown is surfaced as [CONFIRM]).
- * Hartamas: 10AM–10PM cited in a past announcement → `[CONFIRM]`, no weekly split.
+ * HOURS — Desa Sri Hartamas: 10AM–10PM daily
  * ──────────────────────────────────────────────────────────────────────────── */
-
-const KOTA_DAMANSARA_WEEKDAYS: WeeklyHours = {
-  0: null, // Sun — not captured [CONFIRM]
-  1: [{ opens: "18:00", closes: "05:00", closeOnNextDay: true }],
-  2: [{ opens: "18:00", closes: "05:00", closeOnNextDay: true }],
-  3: [{ opens: "18:00", closes: "05:00", closeOnNextDay: true }],
-  4: [{ opens: "18:00", closes: "05:00", closeOnNextDay: true }],
-  5: [{ opens: "18:00", closes: "05:00", closeOnNextDay: true }],
-  6: null, // Sat — not captured [CONFIRM]
-};
 
 const HARTAMAS_DAILY: WeeklyHours = {
   0: [{ opens: "10:00", closes: "22:00" }],
@@ -97,14 +83,14 @@ const HARTAMAS_DAILY: WeeklyHours = {
 };
 
 /* ────────────────────────────────────────────────────────────────────────────
- * BRANCHES
+ * BRANCHES — Single Flagship Location: Desa Sri Hartamas
  * ──────────────────────────────────────────────────────────────────────────── */
 
 export const branches: Branch[] = [
   {
     id: "hartamas",
-    name: "DrumAsia Studio — Hartamas",
-    shortName: "Hartamas",
+    name: "DrumAsia Studio — Sri Hartamas",
+    shortName: "Sri Hartamas",
     subBrand: "studio",
     address: "Wisma CKL, 7-2, Jalan 22A/70A, Desa Sri Hartamas, 50480 Kuala Lumpur",
     wazeTerm: "Drum Asia Hartamas",
@@ -115,32 +101,12 @@ export const branches: Branch[] = [
     },
     hours: HARTAMAS_DAILY,
     holidays: [],
-    hoursNote: "Past announcements cited 10AM–10PM — confirm current hours on WhatsApp.",
+    hoursNote: "10AM–10PM daily — confirm current hours on WhatsApp.",
     venueNote: "The DrumAsia Live venue is in the basement.",
-  },
-  {
-    id: "kota-damansara",
-    name: "DrumAsia Studio — Kota Damansara",
-    shortName: "Kota Damansara",
-    subBrand: "studio",
-    address: null, // Full street address [CONFIRM]
-    wazeTerm: null,
-    geo: null, // [CONFIRM]
-    phones: {
-      bookings: { label: "Branch", value: "+60179191619", confidence: "confirm" },
-      store: { label: "Store", value: "+60199098511", confidence: "confirm" },
-    },
-    hours: KOTA_DAMANSARA_WEEKDAYS,
-    holidays: [],
-    hoursNote:
-      "Cited Mon–Fri 6pm–5am; weekend hours not captured — confirm on WhatsApp.",
-    venueNote:
-      "Home of DARS — DrumAsia Recording Studio — and the Prestige Guitars collection.",
   },
 ];
 
-export const getBranch = (id: Branch["id"]): Branch =>
-  branches.find((b) => b.id === id) ?? branches[0]!;
+export const getBranch = (_id?: string): Branch => branches[0]!;
 
 /* ────────────────────────────────────────────────────────────────────────────
  * IDENTITY
@@ -178,7 +144,7 @@ export const business = {
   proof: {
     recommend: { value: "92%", source: "36 reviews", confidence: "confirm" as Confidence },
     community: { value: "17K", label: "community", confidence: "confirm" as Confidence },
-    branches: { value: "2", label: "branches", confidence: "verified" as Confidence },
+    branches: { value: "1", label: "flagship studio", confidence: "verified" as Confidence },
     est: { value: "2014", label: "EST.", confidence: "verified" as Confidence },
   },
 
@@ -187,9 +153,6 @@ export const business = {
 
   /** Artists associated with the venue. */
   artists: ["Nadir", "Fazz", "The Nabil Nazmi Trio", "Djezna's Stalker", "Tabako Neko"],
-
-  /** Founding date of the Kota Damansara branch. */
-  kotaDamansaraOpened: "2019-06-17",
 
   /**
    * The founder — a single person. [CONFIRM exact legal spelling of the name.]

@@ -200,7 +200,7 @@ export default async function HomePage({
           </Reveal>
         </div>
         <Waveform seed={2} className="mb-10 max-w-[420px] text-accent" />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {rooms.map((room, i) => (
             <Reveal key={room.slug} delay={i * 60}>
               <Link
@@ -209,7 +209,7 @@ export default async function HomePage({
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="tech text-[10px] uppercase tracking-[0.2em] text-ink-dim">
-                    {room.slug === "live-stage" ? "Hartamas · Performance hall" : room.slug === "kota-damansara" ? "Kota Damansara" : "Hartamas"}
+                    {room.slug === "live-stage" ? "Hartamas · Performance hall" : "Hartamas · Studio"}
                   </span>
                   {room.slug === "live-stage" && (
                     <span className="tech rounded-[2px] bg-accent px-1.5 py-0.5 text-[8px] font-semibold tracking-[0.14em] text-black">

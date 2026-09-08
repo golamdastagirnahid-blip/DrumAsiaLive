@@ -586,14 +586,13 @@
   var MENUS_DATA = {
     'rooms': {
       title: 'STUDIO ROOMS',
-      badge: '5 ROOMS',
+      badge: '3 ROOMS',
       icon: '🥁',
       mainHref: 'rooms.html',
       items: [
         { name: 'Studio Ori', desc: 'Desa Sri Hartamas — Signature Rehearsal & Live Tracking', href: 'rooms.html' },
         { name: 'Live Stage', desc: 'Full Performance Hall with Stage Lighting & PA', href: 'rooms.html' },
         { name: 'Lagenda Room', desc: 'Acoustic-Treated High-Energy Band Rehearsal', href: 'rooms.html' },
-        { name: 'Bilik Kompang', desc: 'Kota Damansara Branch Studio', href: 'rooms.html' },
         { name: 'View All Rooms & Pricing →', desc: 'Compare room specs, rates and features', href: 'rooms.html', highlight: true }
       ]
     },
@@ -712,7 +711,7 @@
 
     var mobileDrawer = document.createElement('div');
     mobileDrawer.id = 'da-mobile-drawer';
-    mobileDrawer.style.cssText = 'display:none;position:fixed;inset:0;z-index:999999;background:rgba(10,11,14,0.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);overflow-y:auto;padding:16px 16px 40px 16px;box-sizing:border-box;font-family:Inter,sans-serif;';
+    mobileDrawer.style.cssText = 'display:none;position:fixed;inset:0;z-index:999999;background:rgba(10,11,14,0.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);overflow-y:auto;overflow-x:hidden;width:100vw;max-width:100%;padding:16px 16px 40px 16px;box-sizing:border-box;font-family:Inter,sans-serif;';
 
     var html = [
       '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:14px;margin-bottom:14px;">',
@@ -957,7 +956,22 @@
   }
 
   // === 7. INITIALIZE DOM ENHANCEMENTS ===
+  function enforceMobileFit() {
+    try {
+      document.documentElement.style.maxWidth = '100vw';
+      document.documentElement.style.overflowX = 'hidden';
+      document.body.style.maxWidth = '100vw';
+      document.body.style.overflowX = 'hidden';
+      var main = document.getElementById('main') || document.querySelector('main');
+      if (main) {
+        main.style.maxWidth = '100vw';
+        main.style.overflowX = 'hidden';
+      }
+    } catch(e) {}
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
+    enforceMobileFit();
     onScroll();
     setupDesktopDropdowns();
     setupMobileDrawer();

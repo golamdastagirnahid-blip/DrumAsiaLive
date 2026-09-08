@@ -41,7 +41,7 @@ export function EquipmentBrandTitle({ className }: { className?: string }) {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
             </span>
-            <span className="tech text-[9px] sm:text-[10px] font-semibold tracking-[0.24em] text-accent uppercase">
+            <span className="tech text-[8px] sm:text-[10px] font-semibold tracking-[0.14em] sm:tracking-[0.24em] text-accent uppercase">
               STUDIO EQUIPMENT TYPOGRAPHY · MASTER SPEC
             </span>
           </div>
@@ -60,7 +60,7 @@ export function EquipmentBrandTitle({ className }: { className?: string }) {
         <div className="relative my-2 sm:my-3 flex justify-center items-center py-1 sm:py-2">
           <svg
             viewBox="0 0 920 180"
-            className="w-full h-auto max-w-[640px] overflow-visible drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
+            className="w-full h-auto max-w-[640px] overflow-hidden drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
             aria-label="DRUM ASIA LIVE crafted with musical and studio equipment"
           >
             <defs>

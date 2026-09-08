@@ -75,14 +75,12 @@ export function TransportBar() {
           <StatusLamp open={open} next={next} />
         </div>
 
-        {/* ── Mobile cluster: timecode · date · weather · status ────────── */}
-        <div className="flex flex-1 items-center gap-2 sm:gap-2.5 md:hidden min-w-0 overflow-x-auto no-scrollbar">
+        {/* ── Mobile cluster: timecode · weather · status ────────── */}
+        <div className="flex flex-1 items-center gap-1.5 sm:gap-2.5 md:hidden min-w-0 overflow-x-auto no-scrollbar">
           <Timecode compact />
-          <span className="text-ink-dim/60 text-[10px]">|</span>
-          <SlateDate compact />
-          <span className="text-ink-dim/60 text-[10px]">|</span>
+          <span className="text-ink-dim/40 text-[9px]">|</span>
           <LiveWeather compact />
-          <span className="text-ink-dim/60 text-[10px]">|</span>
+          <span className="text-ink-dim/40 text-[9px]">|</span>
           <StatusLamp open={open} next={next} compact />
         </div>
 

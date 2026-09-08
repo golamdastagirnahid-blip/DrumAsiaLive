@@ -28,7 +28,7 @@ export const faqSections: FaqSection[] = [
       },
       {
         q: "What are your opening hours?",
-        a: "Hartamas was last cited at 10AM–10PM; Kota Damansara at Mon–Fri 6pm–5am (overnight), weekend hours unlisted. Confirm current hours on WhatsApp.",
+        a: "Desa Sri Hartamas operates 10AM–10PM daily. Confirm current studio hours on WhatsApp.",
       },
     ],
   },
@@ -46,7 +46,7 @@ export const faqSections: FaqSection[] = [
       },
       {
         q: "Can I buy gear from you?",
-        a: "Yes. We sell at both branches — amps, accessories, cases and a Prestige Guitars collection — and we also buy, sell and rent instruments.",
+        a: "Yes. We sell guitar accessories, cases, strings, and gear at Sri Hartamas, and we also buy, sell and rent instruments.",
       },
     ],
   },
@@ -56,11 +56,11 @@ export const faqSections: FaqSection[] = [
     items: [
       {
         q: "Do you record bands?",
-        a: "Yes. DARS — DrumAsia Recording Studio at Kota Damansara records full bands, solo musicians, vocals and corporate work. Live recording and live streaming are also available at both branches.",
+        a: "Yes. We record full bands, solo musicians, vocals and corporate work at our Desa Sri Hartamas studio suite. Multi-track live recording and live streaming are also available.",
       },
       {
         q: "What is BYOSE?",
-        a: "A live-audio recording offer that was promoted as exclusive to Kota Damansara. Confirm what it currently includes on WhatsApp.",
+        a: "A live-audio recording package for bands and solo artists at Desa Sri Hartamas. Confirm what it currently includes on WhatsApp.",
       },
     ],
   },
@@ -88,7 +88,7 @@ export const faqSections: FaqSection[] = [
     items: [
       {
         q: "Where are you?",
-        a: "Hartamas: Wisma CKL, 7-2, Jalan 22A/70A, Desa Sri Hartamas, 50480 Kuala Lumpur — the Live venue is in the basement. There's also a second branch in Kota Damansara.",
+        a: "Wisma CKL, 7-2, Jalan 22A/70A, Desa Sri Hartamas, 50480 Kuala Lumpur — the studio rooms are upstairs and the Live venue is in the basement.",
       },
       {
         q: "How do I get there by public transport?",

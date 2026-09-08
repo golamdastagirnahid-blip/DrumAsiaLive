@@ -63,7 +63,7 @@ export default async function StorePage() {
             <SectionHeading index="02" title="Prestige Guitars" seed={82} />
             <Panel className="p-6">
               <p className="text-[15px] leading-relaxed text-ink-mid">
-                The Prestige Guitars collection is carried at Kota Damansara. For the
+                The Prestige Guitars collection is available through Drum Asia. For the
                 current line-up and pricing, ask on WhatsApp.
               </p>
               <a href={ask("Prestige Guitars")} target="_blank" rel="noopener noreferrer" className="btn btn--ghost mt-4 px-5">

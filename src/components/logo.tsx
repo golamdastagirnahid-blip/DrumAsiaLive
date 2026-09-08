@@ -15,10 +15,9 @@ export function Logo({
   size?: number;
 }) {
   return (
-    <span className={cn("inline-flex items-center gap-3 group", className)}>
+    <span className={cn("inline-flex items-center gap-2 sm:gap-3 group select-none shrink-0", className)}>
       <span
-        className="relative block rounded-full overflow-hidden shrink-0 border border-hairline transition-all duration-300 group-hover:border-accent group-hover:shadow-[0_0_12px_var(--gel-glow)]"
-        style={{ width: size, height: size }}
+        className="relative block rounded-full overflow-hidden shrink-0 border border-hairline transition-all duration-300 group-hover:border-accent group-hover:shadow-[0_0_12px_var(--gel-glow)] w-8 h-8 sm:w-10 sm:h-10"
       >
         <img
           src="/logo.jpg"
@@ -37,10 +36,10 @@ export function Logo({
       </span>
       {withWordmark && (
         <span className="flex flex-col text-left">
-          <span className="font-display text-[21px] leading-none tracking-[0.03em] uppercase text-ink group-hover:text-accent transition-colors">
+          <span className="font-display text-[17px] sm:text-[21px] leading-none tracking-[0.02em] sm:tracking-[0.03em] uppercase text-ink group-hover:text-accent transition-colors">
             DRUM<span className="text-accent">ASIA</span>
           </span>
-          <span className="tech text-[9px] uppercase tracking-[0.26em] text-secondary font-semibold mt-0.5">
+          <span className="tech text-[7.5px] sm:text-[9px] uppercase tracking-[0.18em] sm:tracking-[0.26em] text-secondary font-semibold mt-0.5 whitespace-nowrap">
             LIVE · EST. 2014
           </span>
         </span>

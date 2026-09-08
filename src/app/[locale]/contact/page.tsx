@@ -91,11 +91,7 @@ export default async function ContactPage() {
             <h3 className="tech text-[11px] uppercase tracking-[0.2em] text-ink-dim">Opening hours</h3>
             <div className="mt-3 space-y-2 text-[15px] text-ink-mid">
               <p>
-                Hartamas — cited <Confirm note="Revised hours were 10AM–10PM">10AM–10PM</Confirm>
-              </p>
-              <p>
-                Kota Damansara — cited{" "}
-                <Confirm note="Overnight window; weekend hours not captured">Mon–Fri 6pm–5am</Confirm>
+                Desa Sri Hartamas — 10AM–10PM daily
               </p>
               <p className="tech text-[12px] text-ink-dim">
                 Confirm current hours on WhatsApp.

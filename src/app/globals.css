@@ -34,6 +34,33 @@
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
+   MOBILE-SAFE RESPONSIVE LAYOUT & OVERFLOW PROTECTION
+   Prevents any horizontal crop, cuts, or sideways overflow on mobile viewports.
+   ──────────────────────────────────────────────────────────────────────────── */
+html,
+body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+img, svg, video, canvas, audio, iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
    SEMANTIC LAMPS — constant across all gels (SECTION 2.3).
    ──────────────────────────────────────────────────────────────────────────── */
 :root {

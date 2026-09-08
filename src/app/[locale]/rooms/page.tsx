@@ -8,7 +8,7 @@ import { RoomCard } from "@/components/rooms/room-card";
 export const metadata: Metadata = {
   title: "Rooms — Jamming & Rehearsal Studios",
   description:
-    "Studio Ori, Live Stage and Lagenda at Desa Sri Hartamas, plus the big room and DARS recording studio at Kota Damansara.",
+    "Studio Ori, Live Stage and Lagenda at Desa Sri Hartamas — signature jamming and rehearsal studios.",
 };
 
 export default async function RoomsPage({
@@ -28,7 +28,7 @@ export default async function RoomsPage({
             Pick your <span className="text-accent">room.</span>
           </>
         }
-        lede="Three jamming spaces at Hartamas — including the Live Stage, a performance hall you can rehearse on when no show is booked — plus the big room and recording studio at Kota Damansara."
+        lede="Three signature jamming and rehearsal spaces at Desa Sri Hartamas — including the Live Stage, a full performance hall you can rehearse on when no show is booked, alongside Studio Ori and Lagenda."
         actions={
           <a href={book} target="_blank" rel="noopener noreferrer" className="btn btn--accent px-5">
             Book on WhatsApp

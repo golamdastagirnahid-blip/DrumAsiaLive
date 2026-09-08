@@ -77,23 +77,6 @@ export const navTree: NavNodeItem[] = [
         priceHint: "from RM—/hr",
         blurb: "Room three — the legend.",
       },
-      {
-        id: "room-kota-damansara",
-        label: "Kota Damansara",
-        slug: "kota-damansara",
-        href: "/rooms/kota-damansara",
-        priceHint: "from RM—/hr",
-        blurb: "The big room, plus DARS — DrumAsia Recording Studio.",
-        children: [
-          {
-            id: "dars",
-            label: "DARS Recording Studio",
-            slug: "dars",
-            href: "/rooms/kota-damansara#dars",
-            blurb: "Record full bands, soloists, vocals and corporate work.",
-          },
-        ],
-      },
     ],
   },
   {
@@ -220,9 +203,8 @@ export const navTree: NavNodeItem[] = [
       },
       {
         id: "record-dars",
-        label: "DARS — Kota Damansara",
-        href: "/record#dars",
-        badge: "NEW",
+        label: "DARS Recording Studio",
+        href: "/record",
       },
     ],
   },

@@ -1,8 +1,8 @@
 /**
  * lib/hours.ts — pure, fully unit-tested opening-hours logic.
  *
- * Requirements (MILESTONE 1):
- *  - Handle the Kota Damansara OVERNIGHT window (Mon–Fri 18:00 → 05:00 next day).
+ * Requirements:
+ *  - Sri Hartamas daily operating window (10:00 → 22:00 daily).
  *  - Per-weekday variation.
  *  - Public-holiday overrides (override wins over the weekly schedule).
  *

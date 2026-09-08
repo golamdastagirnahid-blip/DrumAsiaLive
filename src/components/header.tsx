@@ -53,7 +53,7 @@ export function Header() {
           : "border-b border-transparent bg-transparent",
       )}
     >
-      <div className="mx-auto flex h-[68px] max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6">
+      <div className="mx-auto flex h-[64px] sm:h-[68px] max-w-[1440px] items-center justify-between gap-2 sm:gap-4 px-3 sm:px-6">
         {/* Left: logo — links directly to index.html / home */}
         <a href="index.html" aria-label="DrumAsia — home" className="shrink-0 text-ink">
           <Logo />
@@ -65,7 +65,7 @@ export function Header() {
         </div>
 
         {/* Right: jamming sound, gel selector, language, book */}
-        <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
           <JammingSoundController compact />
           <GelSelector />
           <div className="hidden sm:inline-flex">

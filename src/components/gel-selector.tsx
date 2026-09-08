@@ -73,22 +73,21 @@ export function GelSelector({ compact = false }: { compact?: boolean }) {
       {/* ── Sleek Compact Header Capsule Trigger ── */}
       <button
         type="button"
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
-        aria-haspopup="true"
-        aria-label={`Active theme: ${activeGel.label}. Click to select from 7 studio themes`}
-        title={`Theme: ${activeGel.label} (${activeGel.instrument}) — Click to change`}
+        aria-haspopup="menu"
+        aria-label="Studio lighting gel presets"
         className={cn(
-          "group relative flex h-9 items-center gap-2 rounded-[6px] border px-2.5 sm:px-3 text-ink backdrop-blur-md transition-all duration-200",
+          "flex items-center gap-1 sm:gap-1.5 h-8 sm:h-9 px-1.5 sm:px-2.5 rounded-[6px] border backdrop-blur-md transition-all duration-200 cursor-pointer shrink-0",
           isOpen
-            ? "border-accent bg-panel text-accent shadow-[0_0_12px_var(--gel-glow)]"
+            ? "border-accent bg-panel text-accent shadow-[0_0_14px_var(--gel-glow)]"
             : "border-hairline bg-panel-2/80 hover:border-hairline-strong hover:bg-panel text-ink-mid hover:text-ink",
           compact && "px-2",
         )}
       >
         {/* Glowing Active LED Swatch Lamp */}
         <span
-          className="h-2.5 w-2.5 rounded-full shrink-0 transition-transform duration-300"
+          className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full shrink-0 transition-transform duration-300"
           style={{
             background: activeGel.swatch,
             boxShadow: `0 0 8px ${activeGel.swatch}`,
@@ -110,7 +109,7 @@ export function GelSelector({ compact = false }: { compact?: boolean }) {
         <ChevronDown
           aria-hidden
           className={cn(
-            "h-3 w-3 text-ink-dim transition-transform duration-200",
+            "h-3 w-3 text-ink-dim transition-transform duration-200 hidden sm:inline",
             isOpen && "rotate-180 text-accent",
           )}
         />

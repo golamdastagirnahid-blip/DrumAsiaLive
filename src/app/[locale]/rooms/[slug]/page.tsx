@@ -150,7 +150,7 @@ export default async function RoomPage({
       {/* Other rooms */}
       <section className="mx-auto max-w-[1200px] px-4 pb-16 sm:px-6">
         <SectionHeading index="05" title="The other rooms" seed={15} />
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2">
           {rooms
             .filter((r) => r.slug !== room.slug)
             .map((r) => (

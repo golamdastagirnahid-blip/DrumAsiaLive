@@ -8,13 +8,8 @@ import {
 } from "@/lib/hours";
 
 const hartamas = getBranch("hartamas");
-const kota = getBranch("kota-damansara");
 
 function at(day: number, hour: number, minute = 0): Date {
-  // `day` is a weekday offset from a known Monday: 2026-09-07 is a Monday.
-  // Constructed in LOCAL time so the test is timezone-independent — it must
-  // match hours.ts, which reads local getDay()/getHours().
-  // Mon = 2026-09-07, Tue = 08 … Sun = 2026-09-13.
   return new Date(2026, 8, 7 + day, hour, minute, 0, 0);
 }
 
@@ -35,37 +30,7 @@ describe("formatCountdown", () => {
   });
 });
 
-describe("isOpenNow — Kota Damansara (Mon–Fri 18:00 → 05:00 overnight)", () => {
-  it("is open on a weekday evening", () => {
-    expect(isOpenNow(kota, at(TUE, 19, 0))).toBe(true);
-  });
-  it("is still open late the same night", () => {
-    expect(isOpenNow(kota, at(TUE, 23, 30))).toBe(true);
-  });
-  it("is open at 03:00 — the overnight window from the previous day", () => {
-    // Monday 18:00 → Tuesday 05:00; 03:00 Tuesday is inside it.
-    expect(isOpenNow(kota, at(TUE, 3, 0))).toBe(true);
-  });
-  it("closes at 05:00 sharp", () => {
-    expect(isOpenNow(kota, at(TUE, 5, 0))).toBe(false);
-  });
-  it("is closed at 10:00 on a weekday", () => {
-    expect(isOpenNow(kota, at(TUE, 10, 0))).toBe(false);
-  });
-  it("is closed on Saturday (weekend hours not captured)", () => {
-    expect(isOpenNow(kota, at(SAT, 20, 0))).toBe(false);
-  });
-  it("is closed on Sunday", () => {
-    expect(isOpenNow(kota, at(SUN, 20, 0))).toBe(false);
-  });
-  it("is closed at 04:59 and open at 05:00 on Saturday (no Friday spill — Fri closed)", () => {
-    // Friday 18:00 → Saturday 05:00 (Fri is a weekday) so Sat 03:00 IS open.
-    expect(isOpenNow(kota, at(SAT, 3, 0))).toBe(true);
-    expect(isOpenNow(kota, at(SAT, 5, 0))).toBe(false);
-  });
-});
-
-describe("isOpenNow — Hartamas (10:00–22:00 daily)", () => {
+describe("isOpenNow — Sri Hartamas (10:00–22:00 daily)", () => {
   it("is open mid-afternoon", () => {
     expect(isOpenNow(hartamas, at(WED, 15, 0))).toBe(true);
   });
@@ -77,25 +42,7 @@ describe("isOpenNow — Hartamas (10:00–22:00 daily)", () => {
   });
 });
 
-describe("nextTransition", () => {
-  it("closed weekday morning → opens at 18:00", () => {
-    const t = nextTransition(kota, at(TUE, 10, 0));
-    expect(t?.type).toBe("opens");
-    expect(t?.at.getHours()).toBe(18);
-    expect(t?.at.getMinutes()).toBe(0);
-  });
-  it("open overnight (Tue 03:00) → closes at 05:00 same day", () => {
-    const t = nextTransition(kota, at(TUE, 3, 0));
-    expect(t?.type).toBe("closes");
-    expect(t?.at.getHours()).toBe(5);
-    expect(t?.at.getDate()).toBe(at(TUE, 3, 0).getDate());
-  });
-  it("closed Saturday → next opens Monday 18:00 (Sunday closed)", () => {
-    const t = nextTransition(kota, at(SAT, 12, 0));
-    expect(t?.type).toBe("opens");
-    expect(t?.at.getDay()).toBe(1); // Monday
-    expect(t?.at.getHours()).toBe(18);
-  });
+describe("nextTransition — Sri Hartamas", () => {
   it("Hartamas Sunday 23:00 → opens Monday 10:00", () => {
     const t = nextTransition(hartamas, at(SUN, 23, 0));
     expect(t?.type).toBe("opens");

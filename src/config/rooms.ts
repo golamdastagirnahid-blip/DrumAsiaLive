@@ -65,20 +65,6 @@ export const rooms: Room[] = [
     features: ["Hourly sessions"],
     order: 3,
   },
-  {
-    slug: "kota-damansara",
-    name: "Kota Damansara",
-    branch: "kota-damansara",
-    tagline: "The big room, plus DARS recording studio.",
-    blurb:
-      "One large jamming studio plus DARS — DrumAsia Recording Studio, set up to record full bands, solo musicians, vocals and corporate work. Opened 17 June 2019.",
-    capacity: null,
-    dimensions: null,
-    rateHour: null,
-    gear: ["Large room", "DARS recording studio", "Prestige Guitars store on site"],
-    features: ["Recording studio on site", "Retail store", "Opened 17 June 2019"],
-    order: 4,
-  },
 ];
 
 export function getRoom(slug: string): Room | undefined {

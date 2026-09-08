@@ -40,7 +40,7 @@ export function JammingSoundController({
 
   if (compact) {
     return (
-      <div className={cn("flex items-center gap-1.5 sm:gap-2 rounded-[6px] border border-hairline bg-panel-2/90 px-2 sm:px-3 py-1 sm:py-1.5 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.5)]", className)}>
+      <div className={cn("flex items-center gap-1.5 sm:gap-2 rounded-[6px] border border-hairline bg-panel-2/90 p-1 sm:px-3 sm:py-1.5 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.5)] shrink-0", className)}>
         {/* Play/Stop Button with active pulsing state */}
         <button
           type="button"
@@ -60,8 +60,8 @@ export function JammingSoundController({
           )}
         </button>
 
-        {/* Status text & equalizer */}
-        <div className="flex flex-col">
+        {/* Status text & equalizer - visible on sm+ screens */}
+        <div className="hidden sm:flex flex-col">
           <div className="flex items-center gap-1.5">
             <span
               className={cn(
@@ -160,21 +160,21 @@ export function JammingSoundController({
                     : "bg-warn shadow-[0_0_8px_#e8b62c]",
                 )}
               />
-              <span className="tech text-[10px] font-bold uppercase tracking-[0.24em] text-accent">
+              <span className="tech text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.16em] sm:tracking-[0.24em] text-accent">
                 {audioState.isPlaying ? "LIVE JAMMING ROOM SESSION" : "STUDIO REHEARSAL AMBIENCE"}
               </span>
             </div>
             <h3 className="font-display text-[17px] sm:text-[20px] text-ink mt-0.5">
               {audioState.isPlaying ? "Hear the Room Reverb & Groove" : "Step Inside the Jamming Room"}
             </h3>
-            <p className="tech text-[10px] sm:text-[11px] uppercase tracking-wider text-ink-dim">
+            <p className="tech text-[9px] sm:text-[11px] uppercase tracking-wider text-ink-dim break-words">
               REAL-TIME WEB AUDIO SYNTHESIZER · 96 BPM · NO STREAMING DELAY
             </p>
           </div>
         </div>
 
         {/* Right: Master Volume & Animated EQ Bars */}
-        <div className="flex items-center gap-5 sm:gap-6 bg-panel/80 px-4 py-2.5 rounded-[8px] border border-hairline">
+        <div className="flex items-center justify-between sm:justify-start gap-4 sm:gap-6 bg-panel/80 px-3 sm:px-4 py-2 sm:py-2.5 rounded-[8px] border border-hairline w-full sm:w-auto">
           {/* Animated Equalizer Visualizer */}
           <div className="flex items-end gap-1 h-8 w-20 sm:w-24">
             {[40, 75, 95, 60, 30, 85, 100, 70, 45, 90, 65, 35].map((h, i) => (

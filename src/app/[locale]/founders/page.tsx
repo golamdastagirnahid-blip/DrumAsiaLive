@@ -18,9 +18,8 @@ const founder = business.founder;
 const timeline = [
   { year: "2014", text: "The doors open to the public when the home studio is outgrown." },
   { year: "—", text: "The performance hall is added — the venue that becomes DrumAsia Live." },
-  { year: "2019", text: "17 June — the Kota Damansara branch opens, with DARS recording studio." },
   { year: "2020–21", text: "Lockdowns. Free live streams and virtual open mics for artists with no stages, plus donation-based artist streams." },
-  { year: "Today", text: "Two branches, three rooms, a stage, and backline for the independent scene." },
+  { year: "Today", text: "Flagship Desa Sri Hartamas studio, three rooms, live stage, and backline for the Malaysian music scene." },
 ];
 
 const threePs = [

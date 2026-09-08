@@ -8,7 +8,7 @@ import { Confirm } from "@/components/confirm";
 export const metadata: Metadata = {
   title: "Record — Studio, Live, Streaming & Mixing",
   description:
-    "Studio recording, live recording, live streaming at both branches, and mixing & mastering. DARS — DrumAsia Recording Studio, Kota Damansara.",
+    "Studio recording, live recording, live streaming, and mixing & mastering at Desa Sri Hartamas.",
 };
 
 const services = [
@@ -16,20 +16,20 @@ const services = [
     id: "studio",
     name: "Studio Recording",
     blurb:
-      "DARS — DrumAsia Recording Studio at Kota Damansara is set up to record full bands, solo musicians, vocals and corporate work.",
-    tag: "Kota Damansara",
+      "Full band multi-track tracking, vocal recording, mixing and mastering at our Desa Sri Hartamas studio suite.",
+    tag: "Sri Hartamas",
   },
   {
     id: "live",
     name: "Live Recording",
     blurb: "Capture a show or a rehearsal straight off the desk — multi-track, mixed after.",
-    tag: "Both branches",
+    tag: "Live Stage",
   },
   {
     id: "streaming",
     name: "Live Streaming",
-    blurb: "Multi-camera live streaming, available at both branches.",
-    tag: "Both branches",
+    blurb: "Multi-camera live streaming from our stage and live rooms.",
+    tag: "Sri Hartamas",
   },
   {
     id: "mixing",
@@ -50,13 +50,13 @@ export default async function RecordPage() {
   return (
     <>
       <PageHero
-        eyebrow="Record · DARS & more"
+        eyebrow="Record · Sri Hartamas"
         title={
           <>
             Get it <span className="text-accent">down.</span>
           </>
         }
-        lede="Studio recording, live recording, live streaming at both branches, and mixing & mastering. Tell us what you're making and we'll set it up."
+        lede="Studio recording, live recording, live streaming at Sri Hartamas, and mixing & mastering. Tell us what you're making and we'll set it up."
         actions={
           <a
             href={ask("Recording enquiry")}
@@ -106,11 +106,7 @@ export default async function RecordPage() {
               </span>
             </h3>
             <p className="mt-2 max-w-[60ch] text-[15px] leading-relaxed text-ink-mid">
-              A live-audio recording offer promoted as exclusive to Kota Damansara.{" "}
-              <Confirm note="What BYOSE currently includes is unconfirmed">
-                What it currently includes is being confirmed
-              </Confirm>{" "}
-              — ask on WhatsApp.
+              A specialized live-audio recording package for bands and solo artists at Desa Sri Hartamas. Ask on WhatsApp for current inclusions and calendar slots.
             </p>
             <a href={ask("BYOSE")} target="_blank" rel="noopener noreferrer" className="btn btn--ghost mt-4 px-5">
               Ask about BYOSE
